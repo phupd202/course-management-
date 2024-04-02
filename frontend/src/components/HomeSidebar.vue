@@ -34,14 +34,22 @@
           <i class="fas fa-lock fa-fw me-2"></i><span>Điểm thi</span>
         </a>
 
-        <router-link v-if = "isAdmin" to="/course-management/admin/students" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý học viên</span>
-        </router-link>
-
         <router-link v-if = "isLecturer" to="/course-management/lecturer/calendar" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lịch dạy</span>
         </router-link>
 
+      </div>
+
+      <div>
+        <router-link v-if="isAdmin" to="/course-management/admin/interest-party" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-lock fa-fw me-2"></i><span>Lịch chờ tư vấn</span>
+        </router-link>
+      </div>
+
+      <div>
+        <router-link v-if="isAdmin" to="/course-management/admin/mail-template" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-lock fa-fw me-2"></i><span>Template Mail</span>
+        </router-link>
       </div>
 
       <router-view/>

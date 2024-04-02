@@ -5,7 +5,7 @@
     </header>
 
     <!-- Content -->
-    <main style="margin-top: 58px;">
+    <main style="margin-top: 58px; margin-left: 60px;">
         <!-- content -->
         <div class="container pt-4">
             <h3>Quản lý lớp học</h3><br>

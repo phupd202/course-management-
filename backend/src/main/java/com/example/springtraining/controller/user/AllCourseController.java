@@ -111,6 +111,7 @@ public class AllCourseController {
             InterestedParty interestedParty = new InterestedParty();
             interestedParty.setName(interestedPartyDto.getName());
             interestedParty.setPhone(interestedPartyDto.getPhone());
+            interestedParty.setEmail(interestedPartyDto.getEmail());
             interestedParty.setAddress(interestedPartyDto.getAddress());
             interestedParty.setCourse(course);
             courseRepository.save(course);

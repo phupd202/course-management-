@@ -37,18 +37,7 @@
             </div>
          </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-         data-bs-slide="prev">
-         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-         <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-         data-bs-slide="next">
-         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-         <span class="visually-hidden">Next</span>
-      </button>
    </div>
-
    <div class = "form-register" style="margin-top: 30px; margin-right: 30px;">
       <h2>Đăng ký nhận tư vấn ngay!!!</h2>
       <div class="container d-flex justify-content-center">

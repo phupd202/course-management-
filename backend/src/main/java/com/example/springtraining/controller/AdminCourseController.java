@@ -2,6 +2,7 @@ package com.example.springtraining.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.springtraining.dto.InterestPartyDtoResponse;
 import com.example.springtraining.dto.LecturerDto;
 import com.example.springtraining.dto.request.CourseBodyRequest;
 import com.example.springtraining.dto.request.CourseRequest;
@@ -9,10 +10,12 @@ import com.example.springtraining.dto.request.EditCourse;
 import com.example.springtraining.dto.request.SubjectRequest;
 import com.example.springtraining.dto.response.CourseResponse;
 import com.example.springtraining.dto.response.ManageSubjectReponse;
-import com.example.springtraining.entity.Assignment;
 import com.example.springtraining.entity.Course;
+import com.example.springtraining.entity.InterestedParty;
 import com.example.springtraining.entity.Subject;
+import com.example.springtraining.repository.InterestedPartyRepository;
 import com.example.springtraining.service.CourseService;
+import com.example.springtraining.service.InterestedPartyServices;
 import com.example.springtraining.service.LecturerService;
 import com.example.springtraining.service.SpecializeService;
 import com.example.springtraining.service.SubjectService;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +36,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -62,6 +65,12 @@ public class AdminCourseController {
 
     @Autowired
     private SpecializeService specializeService;
+
+    @Autowired
+    private InterestedPartyRepository interestedPartyRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(AdminCourseController.class);
 
@@ -255,6 +264,20 @@ public class AdminCourseController {
         } catch (Exception e) {
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Xóa không thành công: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/get-interest-part-dtos/{courseId}")
+    public ResponseEntity<List<InterestPartyDtoResponse>> getMethodName(@PathVariable Long courseId) {
+        if(courseId == null) {
+            throw new NullPointerException("CourseId is nulll");
+        } else {
+            List<InterestedParty> listInterestedParties = interestedPartyRepository.findByCourseId(courseId);
+            List<InterestPartyDtoResponse> dtoList = listInterestedParties.stream()
+                .map(interestedParty -> modelMapper.map(interestedParty, InterestPartyDtoResponse.class))
+                .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtoList);
         }
     }
 }

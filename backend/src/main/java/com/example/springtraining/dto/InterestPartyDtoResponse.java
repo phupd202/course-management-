@@ -1,4 +1,4 @@
-package com.example.springtraining.dto.guest;
+package com.example.springtraining.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -7,12 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Setter
-public class InterestedPartyDto {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class InterestPartyDtoResponse {
     private Long courseId; 
+
+    private String nameCourse;
 
     @NotNull
     private String name;

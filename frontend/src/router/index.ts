@@ -11,6 +11,8 @@ import LecturerScoreView from '@/views/lecturer/LecturerScoreView.vue'
 import DetailAssignmentView from '@/views/lecturer/DetailAssignmentView.vue'
 import CalendarView from '@/views/lecturer/CalendarView.vue'
 import HomeUserView from '@/views/user/HomeUserView.vue'
+import AdminInterestParty from '@/views/admin/AdminInterestParty.vue'
+import AdminMailTemplate from '@/views/admin/AdminMailTemplate.vue'
 
 const routes = [
   {
@@ -65,6 +67,12 @@ const routes = [
     meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
   },
   {
+    path: '/course-management/admin/interest-party',
+    name: 'adminInterestParty',
+    component: AdminInterestParty,
+    meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
+  },
+  {
     path: '/course-management/lecturer/detail-assignment',
     name: 'lecturerDetailAssignment',
     component: DetailAssignmentView,
@@ -79,6 +87,12 @@ const routes = [
     name: 'lecturerCalendar',
     component: CalendarView,
     meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
+  },
+  {
+    path: '/course-management/admin/mail-template',
+    name: 'adminMailTemplate',
+    component: AdminMailTemplate,
+    meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
   },
   {
     path: '/course-management/home',

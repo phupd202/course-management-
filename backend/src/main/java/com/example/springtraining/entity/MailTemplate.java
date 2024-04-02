@@ -1,11 +1,14 @@
 package com.example.springtraining.entity;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,25 +16,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "InterestedParty")
+@Table(name = "MailTemplate")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class InterestedParty {
+public class MailTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long interestedPartyId;
+    private Long mailTemplateId; 
 
-    private String name; 
+    private String nameTemplate;
 
-    private String phone; 
+    private String subject;
 
-    private String address;
+    @Column(columnDefinition = "LONGTEXT")
+    private String content;
 
-    private String email;
-
-    @ManyToOne
-    @JoinColumn(name = "courseId")
-    private Course course;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }
