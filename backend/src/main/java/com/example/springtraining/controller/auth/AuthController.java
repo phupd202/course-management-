@@ -1,4 +1,4 @@
-package com.example.springtraining.controller;
+package com.example.springtraining.controller.auth;
 
 import java.util.List;
 import java.util.stream.Collectors;

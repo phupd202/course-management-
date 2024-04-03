@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "InterestedParty")
+@Table(name = "Register")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class InterestedParty {
+public class Register {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long interestedPartyId;
+    private Long registerId;
 
     private String name; 
 
@@ -31,9 +31,15 @@ public class InterestedParty {
 
     private String email;
 
-    private Boolean isSaled;
+    @ManyToOne
+    @JoinColumn(name = "classroomId")
+    private Classroom classroom;
 
     @ManyToOne
     @JoinColumn(name = "courseId")
     private Course course;
+
+    private Boolean createdAccount;
+
+    private Boolean addedClassroom;
 }

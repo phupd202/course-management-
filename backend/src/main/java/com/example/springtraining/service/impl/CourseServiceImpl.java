@@ -74,4 +74,9 @@ public class CourseServiceImpl implements CourseService {
         }
         return courseRepository.findByClassroomId(classroomId);
     }
+
+    @Override
+    public List<Course> getAllCourse() {
+        return courseRepository.findAll();
+    }
 }

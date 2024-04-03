@@ -1,5 +1,6 @@
 package com.example.springtraining.dto.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,7 @@ public class CourseResponse {
 
     private String description;
 
+    private Double price;
 }
+
+

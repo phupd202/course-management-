@@ -4,6 +4,7 @@ package com.example.springtraining.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springtraining.entity.User;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserId(Long userId);
 
+    @Transactional
     User save(User user);
 
     Boolean existsByEmail(String email);

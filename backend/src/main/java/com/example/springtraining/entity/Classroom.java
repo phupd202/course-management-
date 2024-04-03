@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -50,8 +49,11 @@ public class Classroom {
     private Set<Assignment> assignments;
 
      // add enrollment
-     public void addEnrollment(Enrollment enrollment) {
+    public void addEnrollment(Enrollment enrollment) {
         enrollments.add(enrollment);
         enrollment.setClassroom(this);
     }
+
+    @OneToMany(mappedBy = "classroom")
+    private Set<Register> registers;
 }

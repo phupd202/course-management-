@@ -21,4 +21,6 @@ public interface CourseService {
     List<Classroom> findClassroomByCourseId(Long courseId);
 
     Course findCourseByClassroomId(Long classroomId);
+
+    List<Course> getAllCourse();
 }

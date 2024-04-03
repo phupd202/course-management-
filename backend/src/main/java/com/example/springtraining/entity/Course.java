@@ -57,6 +57,11 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<InterestedParty> interestedParties;
 
+    @OneToMany(mappedBy = "course")
+    private Set<Register> registers;
+
+    private Double price;
+
     // Phương thức thêm lớp học vào danh sách các lớp học của khoá học
     public void addClassroom(Classroom classroom) {
         classrooms.add(classroom);

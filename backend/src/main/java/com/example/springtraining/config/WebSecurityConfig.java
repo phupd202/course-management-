@@ -77,6 +77,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                         .requestMatchers("/course-management/signup").permitAll()
                         .requestMatchers("/course-management/home").permitAll()
                         .requestMatchers("/course-management/get-all-courses").permitAll()
+                        .requestMatchers("/course-management/get-class/**").permitAll()
+                        .requestMatchers("/course-management/mail-confirm").permitAll()
                         .requestMatchers("/course-management/interest-course").permitAll()
                         .requestMatchers("/course-management/admin/**").permitAll()
                         .requestMatchers("/course-management/user/**").permitAll()

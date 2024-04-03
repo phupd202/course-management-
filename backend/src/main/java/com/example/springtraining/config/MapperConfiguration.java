@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.springtraining.mapper.InterestedPartyConverter;
+import com.example.springtraining.mapper.RegisterMapper;
+import com.example.springtraining.mapper.home.ClassroomOfCourseConverter;
+import com.example.springtraining.mapper.home.CourseResponseConverter;
 
 @Configuration
 public class MapperConfiguration {
@@ -12,6 +15,9 @@ public class MapperConfiguration {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.addConverter(new InterestedPartyConverter());
+        modelMapper.addConverter(new CourseResponseConverter());
+        modelMapper.addConverter(new ClassroomOfCourseConverter());
+        modelMapper.addConverter(new RegisterMapper());
         return modelMapper;
     }
 }

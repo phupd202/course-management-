@@ -76,6 +76,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Tên template</th>
                         <th scope="col">Ngày tạo</th>
+                        <th scope="col">Action</th>
                         <th scope="col">Chi tiêt</th>
                     </tr>
                 </thead>
@@ -84,6 +85,11 @@
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ emailResponse.nameTemplate }}</td>
                         <td>{{ emailResponse.createdAt }}</td>
+                        <td>
+                            <button class = "btn btn-primary" @click="deletedTemplate(emailResponse.mailTemplateId)">
+                                Xoá
+                            </button>
+                        </td>
                         <td>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                 Chi tiết
@@ -223,6 +229,16 @@ const saveChangeTemplate = async (emailResponse : EmailResponse) => {
         getAllTemplate();
     } catch(error) {
         console.error("Error while updating", error);
+    }
+}
+
+// delete mail 
+const deletedTemplate = async (mailTemplateId: number) => {
+    try {
+        const response = axios.delete("http://localhost:8080/course-management/admin/delete-template/" + mailTemplateId);
+        console.log("Delete successfull!", response);
+    } catch(error) {
+        console.log("Delete template failure!");
     }
 }
 </script>

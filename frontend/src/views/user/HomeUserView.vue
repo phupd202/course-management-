@@ -38,6 +38,69 @@
          </div>
       </div>
    </div>
+   
+   <h2 style="margin-top: 30px; margin-bottom: 20px;">Các khoá học của chúng tôi</h2>
+   <div class = "list-course" style="margin-left: 20px; margin-right: 20px">
+      <div class="card-course" v-for = "(course, index) in courseResponses" :key="index">
+            <img :src="course.url" alt="Ảnh khoá học">
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <h3 class = "text-card">{{ course.nameCourse }}</h3>
+                <h3>Giá: {{ course.price }}.000 VNĐ</h3>
+                <p class = "text-card">{{ truncateText(course.description) }}</p>
+            </div>
+
+            <div class="register-div">
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="getClassroom(course.courseId)">
+               </button>
+
+               <!-- Modal -->
+               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                  <div class="modal-dialog">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Thông tin đăng ký</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                           </div>
+                           <div class="modal-body">
+                              <form>
+                                    <div class="mb-3">
+                                       <label for="nameId" class="form-label">Họ và tên:</label>
+                                       <input type="text" class="form-control" id="nameId" v-model="register.name">
+                                    </div>
+                                    <div class="mb-3">
+                                       <label for="emailId" class="form-label">Email:</label>
+                                       <input type="email" class="form-control" id="emailId" v-model="register.email">
+                                    </div>
+                                    <div class="mb-3">
+                                       <label for="addressId" class="form-label">Địa chỉ:</label>
+                                       <input type="text" class="form-control" id="addressId" v-model="register.address">
+                                    </div>
+                                    <div class="mb-3">
+                                       <label for="phoneId" class="form-label">Số điện thoại:</label>
+                                       <input type="text" class="form-control" id="phoneId" v-model="register.phone">
+                                    </div>
+
+                                    <div class="mb-3">
+                                       <div class="mb-3">
+                                          <label for="select-classroom" class="form-label input-register">Chọn lớp học</label>
+                                          <select class="form-select" id="select-classroom" v-model="register.classroomId">
+                                             <option disabled value="" selected>Chọn lớp học</option>
+                                             <option v-for="(classroom, index) in classroomOfCourse" :key="index" :value="classroom.classroomId" > {{classroom.nameCourse}} - Thời gian học: {{ classroom.beginDate }} - {{ classroom.endDate }}</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                              </form>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                              <button type="button" class="btn btn-primary"  data-bs-dismiss="modal" @click="sendMailRegister(register.classroomId, course.courseId)">Đăng ký</button>
+                           </div>
+                        </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+   </div>
    <div class = "form-register" style="margin-top: 30px; margin-right: 30px;">
       <h2>Đăng ký nhận tư vấn ngay!!!</h2>
       <div class="container d-flex justify-content-center">
@@ -65,7 +128,7 @@
             <div class="mb-3">
                <label for="select-course" class="form-label input-register">Khoá học bạn quan tâm</label>
                <select class="form-select" id="select-course" v-model="formRequest.courseId">
-                  <option disabled value="">Chọn khoá học</option>
+                  <option disabled value="" selected>Chọn khoá học</option>
                   <option v-for="(courseResponse, idx) in courseResponses" :key="idx" :value="courseResponse.courseId">{{ courseResponse.nameCourse }}</option>
                </select>
             </div>
@@ -83,6 +146,7 @@ import SliderComponent from '@/components/SliderComponent.vue';
 import IntroComponent from '@/components/IntroComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import { onMounted, ref } from 'vue';
+import { truncateText } from '@/helpers/texthelper';
 import axios from 'axios';
 
 interface CourseResponse {
@@ -92,7 +156,8 @@ interface CourseResponse {
    numClass: number, 
    isClosed: boolean, 
    url: string, 
-   description: string
+   description: string,
+   price: number,
 }
 
 const courseResponses = ref<CourseResponse[]>([]); 
@@ -144,9 +209,62 @@ const sendForm = async () => {
    }
 }
 
+// Register
+interface Register {
+   name: string, 
+   phone: string, 
+   address: string, 
+   email: string, 
+   classroomId: number,
+   courseId: number
+}
+
+const register = ref<Register>({
+   name: '', 
+   phone: '',
+   address: '',
+   email: '',
+   classroomId: -1, 
+   courseId:-1
+});
+
+
+const sendMailRegister = async (classroomId: number, courseId: number) => {
+   try {
+      register.value.classroomId = classroomId;
+      register.value.courseId = courseId;
+      const response = axios.post<Register>("http://localhost:8080/course-management/mail-confirm/", register.value);
+      console.log("The data was sent: ", (await response).data)
+      alert("Đăng ký thành công, vui lòng kiểm tra hòm thư của bạn!!");
+   } catch(error) {
+      console.log("Have a error while sendMailRegister")
+   }
+}
+
+// get class by Id
+interface ClassroomOfCourse {
+   classroomId: number, 
+   nameCourse: string, 
+   beginDate: string, 
+   endDate: string
+}
+
+const classroomOfCourse = ref<ClassroomOfCourse[]>([]);
+
+const getClassroom = async (courseId: number) => {
+   try {
+      const response = axios.get<ClassroomOfCourse[]>("http://localhost:8080/course-management/get-class/" + courseId);
+      classroomOfCourse.value = (await response).data;
+      console.log("Data đã nhận được", classroomOfCourse.value)
+   } catch(error) {
+      console.log("Failure when get class of course", error)
+   }
+}
+
 onMounted(() => {
    getAllCourse();
 })
+ 
 </script>
 
 <style>
@@ -184,4 +302,88 @@ onMounted(() => {
      color: #003E83;
 }
 
+
+.list-course {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    margin: 0 -50px; /* Tạo lề bên ngoài cách màn hình 20px */
+}
+
+.card-course {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: #fff;
+    box-shadow: 0 0 10px rga(0, 0, 0, 0.1);
+    margin: 15px;
+    /* không cho ảnh vượt ra ngoài */
+    overflow: hidden;  
+    border:none;
+}
+
+.card-course img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.8s ease;
+}
+
+.card-content {
+    text-align: center;
+}
+
+.card-content h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #666666;
+}
+
+.card-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    color:  #666666;
+    margin-bottom: 8px;
+}
+
+.register-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #003E83; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    width: 150px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none; /* Loại bỏ gạch chân mặc định */
+}
+
+.register-btn:hover {
+    background-color: #0056b3; /* Màu nền của nút khi hover */
+}
+
+.register-btn:focus {
+    outline: none; /* Loại bỏ đường viền xung quanh khi focus */
+}
+
+.text-card {
+    color: #666;
+    font-family: Roboto;
+}
+
+.register-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>

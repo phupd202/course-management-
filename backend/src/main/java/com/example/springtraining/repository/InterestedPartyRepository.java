@@ -17,5 +17,8 @@ public interface InterestedPartyRepository extends JpaRepository<InterestedParty
     @Transactional
     @Query("SELECT ip FROM InterestedParty ip JOIN ip.course c WHERE c.courseId = :courseId")
     List<InterestedParty> findByCourseId(Long courseId);
+
+    @Transactional
+    InterestedParty findByInterestedPartyId(Long interestedPartyId);
     
 }

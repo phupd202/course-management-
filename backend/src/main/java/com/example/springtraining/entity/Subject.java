@@ -1,9 +1,6 @@
 package com.example.springtraining.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

@@ -13,6 +13,7 @@ import CalendarView from '@/views/lecturer/CalendarView.vue'
 import HomeUserView from '@/views/user/HomeUserView.vue'
 import AdminInterestParty from '@/views/admin/AdminInterestParty.vue'
 import AdminMailTemplate from '@/views/admin/AdminMailTemplate.vue'
+import AdminRegisterQueue from '@/views/admin/AdminRegisterQueue.vue'
 
 const routes = [
   {
@@ -92,6 +93,12 @@ const routes = [
     path: '/course-management/admin/mail-template',
     name: 'adminMailTemplate',
     component: AdminMailTemplate,
+    meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
+  },
+  {
+    path: '/course-management/admin/register-queue',
+    name: 'adminRegisterQueue',
+    component: AdminRegisterQueue,
     meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
   },
   {

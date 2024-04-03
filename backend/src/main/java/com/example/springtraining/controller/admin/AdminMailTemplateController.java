@@ -1,11 +1,10 @@
-package com.example.springtraining.controller;
+package com.example.springtraining.controller.admin;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,6 @@ import com.example.springtraining.dto.email.EmailRequestDto;
 import com.example.springtraining.dto.email.EmailUpdateDto;
 import com.example.springtraining.entity.MailTemplate;
 import com.example.springtraining.repository.MailTemplateRepository;
-
-import jakarta.mail.internet.MimeMessage;
 
 @RestController
 @RequestMapping("/course-management/admin")

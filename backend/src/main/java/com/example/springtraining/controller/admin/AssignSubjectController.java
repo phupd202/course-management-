@@ -1,4 +1,4 @@
-package com.example.springtraining.controller;
+package com.example.springtraining.controller.admin;
 
 import java.util.Collections;
 import java.util.List;

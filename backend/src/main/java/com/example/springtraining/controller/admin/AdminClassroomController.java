@@ -1,4 +1,4 @@
-package com.example.springtraining.controller;
+package com.example.springtraining.controller.admin;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

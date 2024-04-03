@@ -1,4 +1,4 @@
-package com.example.springtraining.controller;
+package com.example.springtraining.controller.admin;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +15,6 @@ import com.example.springtraining.entity.InterestedParty;
 import com.example.springtraining.entity.Subject;
 import com.example.springtraining.repository.InterestedPartyRepository;
 import com.example.springtraining.service.CourseService;
-import com.example.springtraining.service.InterestedPartyServices;
 import com.example.springtraining.service.LecturerService;
 import com.example.springtraining.service.SpecializeService;
 import com.example.springtraining.service.SubjectService;
@@ -276,8 +275,25 @@ public class AdminCourseController {
             List<InterestPartyDtoResponse> dtoList = listInterestedParties.stream()
                 .map(interestedParty -> modelMapper.map(interestedParty, InterestPartyDtoResponse.class))
                 .collect(Collectors.toList());
-
             return ResponseEntity.ok(dtoList);
+        }
+    }
+
+    @PostMapping("/tick-sale/{interestPartyId}")
+    public ResponseEntity<?> tickSale(@PathVariable(name = "interestPartyId") Long interestPartyId) {
+        if(interestPartyId == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            try {
+                InterestedParty interestedParty = interestedPartyRepository.findByInterestedPartyId(interestPartyId);
+
+                interestedParty.setIsSaled(true);
+                interestedPartyRepository.save(interestedParty);
+                return ResponseEntity.ok().build();
+            } catch(Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().build();
+            }
         }
     }
 }

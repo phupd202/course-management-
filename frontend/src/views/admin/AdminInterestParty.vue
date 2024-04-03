@@ -32,6 +32,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Địa chỉ</th>
                             <th scope="col">Khoá học quan tâm</th>
+                            <th scope="col">Đã hẹn</th>
                             <th scope="col">Email</th>
                             </tr>
                         </thead>
@@ -43,6 +44,12 @@
                             <td>{{  interestPartyDto.email }}</td>
                             <td>{{  interestPartyDto.address }}</td>
                             <td>{{  interestPartyDto.nameCourse }}</td>
+                            <td>
+                                <!-- nếu đã được tíck render ra -->
+                                <input type = "checkbox" v-if = "interestPartyDto.isSaled" checked disabled>
+                                <!--  -->
+                                <input type="checkbox" v-else v-model = "selectedCheckbox" @change="tickSale(interestPartyDto.interestPartyId)">
+                            </td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Gửi mail
@@ -165,12 +172,14 @@ const getAllCourse = async() => {
 
 // Get interestPartyDto with course
 interface InterestPartyDto {
+    interestPartyId: number,
     name: string, 
     phone: string, 
     address: string, 
     email: string, 
     courseId: number, 
     nameCourse: string, 
+    isSaled: boolean
 }
 
 const interestPartyDtos = ref<InterestPartyDto[]>([]);
@@ -253,6 +262,21 @@ const sendMail = async (email: string) => {
         console.log("Send mail failure", error);
     }
 }
+
+// checked box tự vấn
+let selectedCheckbox: boolean = false;
+
+const tickSale = (interestPartyId: number) => {
+    try {
+        axios.post("http://localhost:8080/course-management/admin/tick-sale/" + interestPartyId);
+        console.log("Tick successfully!");
+        // gán lại giá trị cho check box bằng false
+        selectedCheckbox = false;
+    } catch (error) {
+        console.log("Action tick is not successful!");
+    }
+}
+
 
 
 onMounted(() => {

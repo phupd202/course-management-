@@ -18,6 +18,7 @@ public class CourseResponseMapper {
         courseResponse.setNameCourse(course.getNameCourse());
         courseResponse.setDescription(course.getDescription());
         courseResponse.setIsClosed(course.getIsClosed());
+        courseResponse.setPrice(course.getPrice());
 
         Integer numClass = 0;
         if(course.getClassrooms() == null) {

@@ -18,6 +18,8 @@ public class InterestedPartyConverter implements Converter<InterestedParty, Inte
         destination.setEmail(source.getEmail());
         destination.setPhone(source.getPhone());
         destination.setAddress(source.getAddress());
+        destination.setIsSaled(source.getIsSaled());
+        destination.setInterestPartyId(source.getInterestedPartyId());
         return destination;
     }
 }

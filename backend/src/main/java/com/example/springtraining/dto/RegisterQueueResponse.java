@@ -2,21 +2,17 @@ package com.example.springtraining.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class InterestPartyDtoResponse {
-    private Long interestPartyId;
+public class RegisterQueueResponse {
+    private Long registerId;
 
     private Long courseId; 
 
-    private String nameCourse;
+    private Long classroomId;
 
     @NotNull
     private String name;
@@ -31,6 +27,7 @@ public class InterestPartyDtoResponse {
     @NotNull
     private String address;
 
-    @NotNull
-    private Boolean isSaled;
+    private Boolean createdAccount;
+
+    private Boolean addedClassroom;
 }

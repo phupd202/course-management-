@@ -47,6 +47,12 @@
       </div>
 
       <div>
+        <router-link v-if="isAdmin" to="/course-management/admin/register-queue" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-lock fa-fw me-2"></i><span>Đơn đăng ký</span>
+        </router-link>
+      </div>
+
+      <div>
         <router-link v-if="isAdmin" to="/course-management/admin/mail-template" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-lock fa-fw me-2"></i><span>Template Mail</span>
         </router-link>
