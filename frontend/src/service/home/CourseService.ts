@@ -22,3 +22,17 @@ export async function getClassroom(courseId: number): Promise<ClassroomOfCourse[
       throw error; // Throw lỗi để xử lý ở nơi gọi hàm này
    }
 }
+
+export async function getCourseById(courseId: number): Promise<CourseResponse> {
+   try {
+      const response = await axios.get<CourseResponse>(`http://localhost:8080/course-management/detail-course-guest`, {
+         params: {
+            courseId: courseId
+        }
+      })
+      return response.data;
+   } catch(error) {
+      console.error("Failure when get course by id", error);
+      throw error; // Throw lỗi để xử lý ở nơi gọi hàm này
+   }
+}

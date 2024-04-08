@@ -21,6 +21,9 @@ public class ClassroomOfCourseConverter implements Converter<Classroom, Classroo
 
         classroomOfCourse.setEndDate(source.getEndDate().format(formatter));
         classroomOfCourse.setBeginDate(source.getBeginDate().format(formatter));
+        classroomOfCourse.setDescription(source.getCourse().getDescription());
+        classroomOfCourse.setCourseId(source.getCourse().getCourseId());
+        classroomOfCourse.setNameCourse(source.getCourse().getNameCourse());
         return classroomOfCourse;
     }
     

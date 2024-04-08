@@ -42,6 +42,7 @@ public class Course {
     @Fetch(FetchMode.SUBSELECT)
     private List<Classroom> classrooms;
 
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     private String nameCourse;

@@ -45,3 +45,14 @@ export function getDatePart(dateString: string): string {
     return datePart;
 }
 
+export function formatDateTime(dateTimeStr: string) {
+    const dateTime = new Date(dateTimeStr);
+    const day = dateTime.getDate();
+    const month = dateTime.getMonth() + 1; 
+    const year = dateTime.getFullYear();
+
+    const formattedDay = day < 10 ? '0' + day : day;
+    const formattedMonth = month < 10 ? '0' + month : month;
+    return formattedDay + '/' + formattedMonth + '/' + year;
+}
+

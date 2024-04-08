@@ -2,6 +2,7 @@ package com.example.springtraining.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -74,11 +75,14 @@ public class User {
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Enrollment> enrollments;
 
     public void addEnrollment(Enrollment enrollment) {
         enrollments.add(enrollment);
         enrollment.setUser(this);
     }
+
+    @OneToMany(mappedBy = "user")
+    private Set<Score> scores;
 }

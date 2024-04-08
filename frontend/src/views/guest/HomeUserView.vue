@@ -42,67 +42,22 @@
    <h2 style="margin-top: 30px; margin-bottom: 20px;">Các khoá học của chúng tôi</h2>
    <div class = "list-course" style="margin-left: 20px; margin-right: 20px">
       <div class="card-course" v-for = "(course, index) in courseResponses" :key="index">
-            <img :src="course.url" alt="Ảnh khoá học">
+            <img :src="course.url" alt="Ảnh khoá học" style="max-width: 100%; max-height: 150px;">
             <div style="margin-top: 20px; margin-bottom: 20px;">
-                <h3 class = "text-card">{{ course.nameCourse }}</h3>
-                <h3>Giá: {{ course.price }}.000 VNĐ</h3>
-                <p class = "text-card">{{ truncateText(course.description) }}</p>
+                <h3 class = "text-card" id = "h3-course" >{{ truncateText(course.nameCourse, 20) }}</h3>
+                <h3>Giá: {{ currencyFilter(course.price) }}</h3>
+                <p class = "text-card">{{ truncateText(course.description, 80) }}</p>
             </div>
 
             <div class="register-div">
-               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="getClassroom(course.courseId)">
-               </button>
-
-               <!-- Modal -->
-               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                  <div class="modal-dialog">
-                        <div class="modal-content">
-                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Thông tin đăng ký</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                           </div>
-                           <div class="modal-body">
-                              <form>
-                                    <div class="mb-3">
-                                       <label for="nameId" class="form-label">Họ và tên:</label>
-                                       <input type="text" class="form-control" id="nameId" v-model="register.name">
-                                    </div>
-                                    <div class="mb-3">
-                                       <label for="emailId" class="form-label">Email:</label>
-                                       <input type="email" class="form-control" id="emailId" v-model="register.email">
-                                    </div>
-                                    <div class="mb-3">
-                                       <label for="addressId" class="form-label">Địa chỉ:</label>
-                                       <input type="text" class="form-control" id="addressId" v-model="register.address">
-                                    </div>
-                                    <div class="mb-3">
-                                       <label for="phoneId" class="form-label">Số điện thoại:</label>
-                                       <input type="text" class="form-control" id="phoneId" v-model="register.phone">
-                                    </div>
-
-                                    <div class="mb-3">
-                                       <div class="mb-3">
-                                          <label for="select-classroom" class="form-label input-register">Chọn lớp học</label>
-                                          <select class="form-select" id="select-classroom" v-model="register.classroomId">
-                                             <option disabled value="" selected>Chọn lớp học</option>
-                                             <option v-for="(classroom, index) in classroomOfCourse" :key="index" :value="classroom.classroomId" > {{classroom.nameCourse}} - Thời gian học: {{ classroom.beginDate }} - {{ classroom.endDate }}</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                              </form>
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                              <button type="button" class="btn btn-primary"  data-bs-dismiss="modal" @click="sendMailRegister(register.classroomId, course.courseId)">Đăng ký</button>
-                           </div>
-                        </div>
-                  </div>
-               </div>
+               <router-link :to="{ name: 'detailCourseGuest', query: { courseId: Number(course.courseId) } }" class="btn btn-primary">
+                Chi tiết
+               </router-link>
             </div>
         </div>
    </div>
    <div class = "form-register" style="margin-top: 30px; margin-right: 30px;">
-      <h2>Đăng ký nhận tư vấn ngay!!!</h2>
+      <h2 id = "h2-sale">Đăng ký nhận tư vấn ngay!!!</h2>
       <div class="container d-flex justify-content-center">
          <form class = "col-9" @submit.prevent="sendForm">
             <div class="mb-3">
@@ -147,6 +102,8 @@ import IntroComponent from '@/components/IntroComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import { onMounted, ref } from 'vue';
 import { truncateText } from '@/helpers/texthelper';
+import { currencyFilter } from '@/helpers/pricehelper';
+
 import axios from 'axios';
 
 interface CourseResponse {
@@ -161,6 +118,7 @@ interface CourseResponse {
 }
 
 const courseResponses = ref<CourseResponse[]>([]); 
+
 
 const getAllCourse = async() => {
    try {
@@ -208,59 +166,6 @@ const sendForm = async () => {
       console.log(data)
    }
 }
-
-// Register
-interface Register {
-   name: string, 
-   phone: string, 
-   address: string, 
-   email: string, 
-   classroomId: number,
-   courseId: number
-}
-
-const register = ref<Register>({
-   name: '', 
-   phone: '',
-   address: '',
-   email: '',
-   classroomId: -1, 
-   courseId:-1
-});
-
-
-const sendMailRegister = async (classroomId: number, courseId: number) => {
-   try {
-      register.value.classroomId = classroomId;
-      register.value.courseId = courseId;
-      const response = axios.post<Register>("http://localhost:8080/course-management/mail-confirm/", register.value);
-      console.log("The data was sent: ", (await response).data)
-      alert("Đăng ký thành công, vui lòng kiểm tra hòm thư của bạn!!");
-   } catch(error) {
-      console.log("Have a error while sendMailRegister")
-   }
-}
-
-// get class by Id
-interface ClassroomOfCourse {
-   classroomId: number, 
-   nameCourse: string, 
-   beginDate: string, 
-   endDate: string
-}
-
-const classroomOfCourse = ref<ClassroomOfCourse[]>([]);
-
-const getClassroom = async (courseId: number) => {
-   try {
-      const response = axios.get<ClassroomOfCourse[]>("http://localhost:8080/course-management/get-class/" + courseId);
-      classroomOfCourse.value = (await response).data;
-      console.log("Data đã nhận được", classroomOfCourse.value)
-   } catch(error) {
-      console.log("Failure when get class of course", error)
-   }
-}
-
 onMounted(() => {
    getAllCourse();
 })
@@ -385,5 +290,17 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#h3-course {
+   color: #FF69B4;;
+}
+
+#h2-sale {
+   color: #FF69B4;
+}
+
+.text-course {
+   color:  #6A5ACD;
 }
 </style>

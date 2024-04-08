@@ -8,6 +8,7 @@ import com.example.springtraining.mapper.InterestedPartyConverter;
 import com.example.springtraining.mapper.RegisterMapper;
 import com.example.springtraining.mapper.home.ClassroomOfCourseConverter;
 import com.example.springtraining.mapper.home.CourseResponseConverter;
+import com.example.springtraining.mapper.user.ScoreMapper;
 
 @Configuration
 public class MapperConfiguration {
@@ -18,6 +19,7 @@ public class MapperConfiguration {
         modelMapper.addConverter(new CourseResponseConverter());
         modelMapper.addConverter(new ClassroomOfCourseConverter());
         modelMapper.addConverter(new RegisterMapper());
+        modelMapper.addConverter(new ScoreMapper());
         return modelMapper;
     }
 }

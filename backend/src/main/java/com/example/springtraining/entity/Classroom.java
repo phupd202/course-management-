@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class Classroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long classroomId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courseId")
     private Course course;
 
@@ -56,4 +57,7 @@ public class Classroom {
 
     @OneToMany(mappedBy = "classroom")
     private Set<Register> registers;
+
+    @OneToOne(mappedBy = "classroom")
+    private Score score;
 }

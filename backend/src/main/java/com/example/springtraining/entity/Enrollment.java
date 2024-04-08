@@ -30,7 +30,7 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long enrollmentId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "userId")
     private User user;
     
@@ -39,10 +39,6 @@ public class Enrollment {
     private Classroom classroom;
 
     private LocalDateTime enrollmentDay;
-
-    private Integer score;
-     
-    private String status;
 
     @OneToOne(mappedBy = "enrollment", fetch = FetchType.EAGER)
     private Subject subject;

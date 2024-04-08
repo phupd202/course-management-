@@ -3,7 +3,7 @@
     <div class="list-group list-group-flush mx-3 mt-4">
       <div>
         <a v-if="isUser" href="#" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Trang chủ</span>
+          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Thông tin cá nhân</span>
         </a>
         
         <router-link v-if = "isAdmin" to="/course-management/admin/courses" class="list-group-item list-group-item-action rounded-3 py-3">
@@ -16,9 +16,9 @@
       </div>
 
       <div>
-        <a v-if="isUser" href="#" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-chart-area fa-fw me-2"></i><span>Quản lý khoá học</span>
-        </a>
+          <router-link v-if="isUser" to="/course-management/user/my-course" class="list-group-item list-group-item-action rounded-3 py-3">
+            <i class="fas fa-lock fa-fw me-2"></i><span>Khoá học của tôi</span>
+          </router-link>
 
         <router-link v-if="isAdmin" to="/course-management/admin/management-class" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lớp học</span>
@@ -30,9 +30,10 @@
       </div>
       
       <div>
-        <a v-if="isUser" href="#" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-lock fa-fw me-2"></i><span>Điểm thi</span>
-        </a>
+
+        <router-link v-if = "isUser" to="/course-management/user/my-score" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Xem điểm</span>
+        </router-link>
 
         <router-link v-if = "isLecturer" to="/course-management/lecturer/calendar" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lịch dạy</span>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springtraining.config.service.MailSenderService;
 import com.example.springtraining.dto.email.MailConfirmRegister;
+import com.example.springtraining.dto.guest.DetailCourse;
 import com.example.springtraining.dto.guest.InterestedPartyDto;
 import com.example.springtraining.dto.response.ClassroomOfCourse;
 import com.example.springtraining.dto.response.CourseResponse;
@@ -194,6 +195,7 @@ public class HomeController {
                 register.setName(mailConfirmRegister.getName());
                 register.setClassroom(classroom);
                 register.setCourse(course);
+
                 courseRepository.save(course);
                 classroomRepository.save(classroom);
                 registerRepository.save(register);
@@ -235,5 +237,22 @@ public class HomeController {
             }
         }
     }
+
+    @GetMapping("/detail-course-guest")
+    public ResponseEntity<?> getDetailCourse(@RequestParam(name = "courseId") Long courseId) {
+        if(courseId == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            try {
+                Course course = courseRepository.findByCourseId(courseId);
+                DetailCourse detailCourse = modelMapper.map(course, DetailCourse.class);
+                return ResponseEntity.ok(detailCourse);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().build();
+            }
+        }
+    }
+    
     
 }

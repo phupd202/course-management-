@@ -1,5 +1,7 @@
 package com.example.springtraining.dto.lecturer;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +12,13 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ScoreDto {
-    private Long enrollmentId; 
+    private Long subjectId; 
+    
+    private Long classroomId; 
 
-    private Integer score;
+    private List<Long> enrollmentIds;
 
-    private String status;
+    private List<Integer> scores;
+
+    private List<String> statues;
 }

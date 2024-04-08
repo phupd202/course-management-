@@ -59,9 +59,6 @@ public class AdminManagementRegister {
 
     @Autowired
     private ClassroomRepository classroomRepository;
-
-    @Autowired
-    private EnrollmentRepository enrollmentRepository;
     
     @GetMapping("/get-register-in-class")
     public ResponseEntity<List<RegisterQueueResponse>> getRegisterInClass(@RequestParam(name = "classroomId") Long classroomId, @RequestParam(name = "courseId") Long courseId) {

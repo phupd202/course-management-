@@ -1,9 +1,5 @@
 package com.example.springtraining.dto.response;
 
-import java.util.List;
-
-import com.example.springtraining.dto.LecturerDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -3,4 +3,6 @@ export interface ClassroomOfCourse {
     nameCourse: string; 
     beginDate: string; 
     endDate: string;
+    description: string
+    courseId: number
 }

@@ -17,4 +17,8 @@ public class EnrollmentDto {
     private String address;
 
     private String birthday;
+
+    private String status;
+
+    private Integer score;
 }

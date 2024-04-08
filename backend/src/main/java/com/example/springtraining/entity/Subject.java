@@ -55,6 +55,9 @@ public class Subject {
     @JoinColumn(name = "enrollmentId")
     private Enrollment enrollment;
 
+    @OneToOne(mappedBy = "subject")
+    private Score score;
+
 }
 
 

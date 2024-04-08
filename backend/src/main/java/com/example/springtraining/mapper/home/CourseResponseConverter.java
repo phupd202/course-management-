@@ -1,22 +1,13 @@
 package com.example.springtraining.mapper.home;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.example.springtraining.dto.response.ClassroomOfCourse;
 import com.example.springtraining.dto.response.CourseResponse;
-import com.example.springtraining.entity.Classroom;
 import com.example.springtraining.entity.Course;
 
 public class CourseResponseConverter implements Converter<Course, CourseResponse>{
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     public CourseResponse convert(MappingContext<Course, CourseResponse> context) {

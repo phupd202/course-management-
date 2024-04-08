@@ -8,7 +8,7 @@ import com.example.springtraining.entity.Enrollment;
 public interface EnrollmentService {
     List<Enrollment> findEnrollmentByClassroomId(Long classroomId);
 
-    List<EnrollmentDto> findAssignmentByClassroomId(Long classroomId);
+    List<EnrollmentDto> findAssignmentByClassroomIdAndSubjectId(Long classroomId, Long subjectId);
 
     Enrollment findEnrollmentById(Long enrollmentId);
 

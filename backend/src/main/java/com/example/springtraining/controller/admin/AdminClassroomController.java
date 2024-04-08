@@ -107,7 +107,6 @@ public class AdminClassroomController {
     public ResponseEntity<List<ClassroomResponse>> getAllClass(@PathVariable Long courseId) {
         List<Classroom> classrooms = courseService.findClassroomByCourseId(courseId);
     
-
         if(classrooms == null || classrooms.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }

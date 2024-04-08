@@ -2,12 +2,12 @@ package com.example.springtraining.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,19 +15,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Specialize")
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "Score")
 @Setter
 @Getter
-public class Specialize {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long specializeId; 
+    private Long scoreId;
 
-    private String nameSpecialize;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subjectId")
+    private Subject subject;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "lecturerId")
-    private Lecturer lecturer;
+    private String status; // khá, giỏi , xuất sắc
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "classroomId")
+    private Classroom classroom;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    private Integer score;
 }

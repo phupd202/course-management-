@@ -9,31 +9,31 @@
 
                 <form class="mt-4 form-login" @submit.prevent="submitForm">
                     <div class="mb-3">
-                        <input type="text" v-model="signupData.email" class="form-control" placeholder="Email" @input="validateEmail" required autofocus>
+                        <input type="text" v-model="signupData.email" class="form-control" placeholder="Email" @blur="validateEmail" required autofocus>
                         <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" v-model="signupData.phone" class="form-control" @input="validatePhone" placeholder="Số điện thoại" required autofocus>
+                        <input type="text" v-model="signupData.phone" class="form-control" @blur="validatePhone" placeholder="Số điện thoại" required autofocus>
                         <div v-if="errors.phone" class="text-danger">{{ errors.phone }}</div>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" v-model="signupData.address" class="form-control"  @input="validateAddress" placeholder="Địa chỉ" required autofocus>
+                        <input type="text" v-model="signupData.address" class="form-control"  @blur="validateAddress" placeholder="Địa chỉ" required autofocus>
                         <div v-if="errors.address" class="text-danger">{{ errors.address }}</div>
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" v-model="signupData.password" class="form-control" @input="validatePassword" required placeholder="Mật khẩu">
+                        <input type="password" v-model="signupData.password" class="form-control" @blur="validatePassword" required placeholder="Mật khẩu">
                         <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" v-model="signupData.confirmPassword" class="form-control" @input="validateConfirmPassword" placeholder="Xác nhận mật khẩu" required>
+                        <input type="password" v-model="signupData.confirmPassword" class="form-control" @blur="validateConfirmPassword" placeholder="Xác nhận mật khẩu" required>
                         <div v-if="errors.confirmPassword" class="text-danger">{{ errors.confirmPassword }}</div>
                     </div>
 
-                    <div class="d-grid mt-5">
+                    <div class="d-grid mt-5 d-flex justify-content-center">
                         <button class="btn" type="submit">Đăng ký</button>
                     </div>
                 </form>
@@ -51,15 +51,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
-
-interface SignupData {
-  email: string;
-  phone: string;
-  address: string;
-  password: string;
-  confirmPassword: string;
-}
-
+import SignupData from '@/interface/auth/SignunData';
 export default defineComponent({
   data() {
     return {

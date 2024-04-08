@@ -10,6 +10,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ClassroomOfCourse {
+    private Long courseId;
+    
     private String nameCourse;
 
     private Long classroomId;
@@ -17,4 +19,6 @@ public class ClassroomOfCourse {
     private String beginDate;
 
     private String endDate;
+
+    private String description;
 }

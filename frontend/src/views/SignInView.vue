@@ -9,12 +9,12 @@
 
                 <form class="mt-4 form-login" @submit.prevent="login">
                     <div class="mb-3">
-                        <input type="text" v-model="signinData.email" class="form-control" placeholder="Email" required @input = "validateEmail">
+                        <input type="text" v-model="signinData.email" class="form-control" placeholder="Email" required @blur = "validateEmail">
                         <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
                     </div>
 
                     <div class="mb-3">
-                        <input type="password" v-model="signinData.password" class="form-control" placeholder="Mật khẩu" required @input = "validatePassword">
+                        <input type="password" v-model="signinData.password" class="form-control" placeholder="Mật khẩu" required @blur = "validatePassword">
                         <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
                     </div>
 
@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="d-grid mt-5">
+                    <div class="d-grid mt-5 d-flex justify-content-center">
                         <button class="btn" type="submit">Đăng nhập</button>
                     </div>
                 </form>
@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import router from '@/router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 // import { computed } from 'vue';
 
@@ -58,27 +58,30 @@ const signinData: SigninData = {
   password: '',
 };
 
+const errors = ref<{ [key: string]: string }>({
+  email: '',
+  password: ''
+});
 
-const errors: { [key: string]: string } = {};
 const validateEmail = () => {
-  errors.email = '';
+  errors.value.email = '';
   if (!signinData.email) {
-    errors.email = 'Vui lòng nhập địa chỉ email.';
+    errors.value.email = 'Vui lòng nhập địa chỉ email.';
   } else if (!/^\S+@gmail\.com$/.test(signinData.email)) {
-    errors.email = 'Địa chỉ email phải kết thúc bằng @gmail.com';
+    errors.value.email = 'Địa chỉ email phải kết thúc bằng @gmail.com';
   }
 };
 
 const validatePassword = () => {
-  errors.password = '';
+  errors.value.password = '';
   if (!signinData.password) {
-    errors.password = 'Vui lòng nhập mật khẩu.';
+    errors.value.password = 'Vui lòng nhập mật khẩu.';
   } else if (
     !/(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
       signinData.password
     )
   ) {
-    errors.password =
+    errors.value.password =
       'Mật khẩu phải có ít nhất 8 ký tự, 1 ký tự in hoa, 1 ký tự số, và 1 ký tự đặc biệt.';
   }
 };
@@ -108,7 +111,7 @@ const login = async () => {
 
       if (Array.isArray(roles.value) && roles.value.length === 1) {
         if(roles.value[0] === "USER") {
-          router.push({ name: 'home' });
+          router.push({ name: 'userMyCourse' });
         } else if(roles.value[0] === "ADMIN") {
           router.push({ name: 'adminCourse' });
         } else if(roles.value[0] === "LECTURER") {
@@ -152,6 +155,7 @@ const login = async () => {
 
 * {
     font-family: 'Nunito', sans-serif; 
+    color: #333333;
 }
 
 .container-fluid {

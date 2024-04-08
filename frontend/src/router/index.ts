@@ -10,10 +10,14 @@ import AssignClassroom from '@/views/admin/AssignClassroom.vue'
 import LecturerScoreView from '@/views/lecturer/LecturerScoreView.vue'
 import DetailAssignmentView from '@/views/lecturer/DetailAssignmentView.vue'
 import CalendarView from '@/views/lecturer/CalendarView.vue'
-import HomeUserView from '@/views/user/HomeUserView.vue'
+import HomeUserView from '@/views/guest/HomeUserView.vue'
 import AdminInterestParty from '@/views/admin/AdminInterestParty.vue'
 import AdminMailTemplate from '@/views/admin/AdminMailTemplate.vue'
 import AdminRegisterQueue from '@/views/admin/AdminRegisterQueue.vue'
+import UserMyCourse from '@/views/user/UserMyCourse.vue'
+import UserScoreView from '@/views/user/UserScoreView.vue'
+import { C } from '@fullcalendar/core/internal-common'
+import DetailCourseGuestView from '@/views/guest/DetailCourseGuestView.vue'
 
 const routes = [
   {
@@ -106,6 +110,27 @@ const routes = [
     name: 'home',
     component: HomeUserView
   },
+  {
+    path: '/course-management/user/my-course',
+    name: 'userMyCourse',
+    component: UserMyCourse,
+    meta: { requiresAuth: true, allowedRoles: ["USER"] }
+  },
+  {
+    path: '/course-management/user/my-score',
+    name: 'userMyScore',
+    component: UserScoreView,
+    meta: { requiresAuth: true, allowedRoles: ["USER"] }
+  },
+  {
+    path: '/course-management/detail-course',
+    name: 'detailCourseGuest',
+    component: DetailCourseGuestView,
+    props: (route: { params: { courseId: number } }) => ({
+      courseId: route.params.courseId as number
+    })
+  }
+  
 ]
 
 const router = createRouter({

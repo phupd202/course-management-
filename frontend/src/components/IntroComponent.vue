@@ -31,7 +31,7 @@
                 </button>
             </div>
         </div>
-        <div class="card">
+        <div class="card" id = "card-hover">
             <img src="../assets/intro3.png" alt="Ảnh intro 3">
             <div style="margin-top: 20px; margin-bottom: 20px">
                 <h3 class="text-card">Tiện ích hỗ trợ</h3>
@@ -76,7 +76,7 @@
     border:none;
 }
 
-.card:hover {
+#card-hover {
     /* phóng to ảnh */
     transform: scale(1.05);
 }
