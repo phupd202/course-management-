@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.example.springtraining.dto.response.CourseResponse;
-import com.example.springtraining.entity.Classroom;
+import com.example.springtraining.dto.admin.CourseResponse;
+import com.example.springtraining.dto.response.ClassroomResponse;
 import com.example.springtraining.entity.Course;
 
 public interface CourseService {
@@ -18,9 +18,11 @@ public interface CourseService {
 
     List<Course> findAllCourse();
 
-    List<Classroom> findClassroomByCourseId(Long courseId);
+    List<ClassroomResponse> findClassroomByCourseId(Long courseId);
 
     Course findCourseByClassroomId(Long classroomId);
 
     List<Course> getAllCourse();
+
+    void updateCourse(CourseResponse courseResponse);
 }

@@ -32,10 +32,12 @@ public class Assignment {
     @JoinColumn(name = "classroomId")
     private Classroom classroom;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "lecturerId")
     private Lecturer lecturer;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "subjectId")
     private Subject subject;
 
     private LocalTime beginTime;

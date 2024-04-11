@@ -18,17 +18,26 @@ export function countDayInWeekBetweenDate(beginDate: Date, endDate: Date, dayOfW
     return count;
 }
 
-export function findFirstDayBeginDate(beginDate: Date, dayOfWeek: number): Date {
-    const dayBeginDate = beginDate.getDay() - 1;
+// Tìm ngày có dayOfWeek gần với beginDate nhất
+export function findClosestDayOfWeek(beginDate: Date, dayOfWeek: number): Date {
+    const beginDay = beginDate.getDay(); // Lấy ngày trong tuần của beginDate
 
-    const diffDay = dayOfWeek - beginDate.getDay();
+    let diff = dayOfWeek - beginDay;
 
-    if(diffDay >= 0) {
-        return new Date(beginDate.setDate(beginDate.getDate()) + diffDay)
-    } else {
-        return new Date(beginDate.setDate(beginDate.getDate()) + 7 - diffDay)
+    // Tìm chênh lệch
+    if (diff < 0) {
+        diff += 7; 
     }
+
+    // Sao chép beginDate để không thay đổi giá trị gốc
+    const resultDate = new Date(beginDate);
+
+    // Thêm sự chênh lệch vào beginDate để tìm ngày gần nhất có dayOfWeek
+    resultDate.setDate(beginDate.getDate() + diff);
+
+    return resultDate;
 }
+
 
 export function countDaysBetweenDate(beginDate: Date, endDate: Date): number {
     const timeDiff = endDate.getTime() - beginDate.getTime();

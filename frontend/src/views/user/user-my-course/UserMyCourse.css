@@ -1,0 +1,19 @@
+.accordion-header {
+    background-color: #333;
+}
+
+.accordion-button {
+    color: #333; 
+}
+
+.accordion-body {
+    background-color: #f8f9fa; 
+}
+
+h4 {
+    color: #333; 
+}
+
+p {
+    color: #666; 
+}

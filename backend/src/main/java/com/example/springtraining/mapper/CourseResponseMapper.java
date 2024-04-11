@@ -2,7 +2,7 @@ package com.example.springtraining.mapper;
 
 import java.time.format.DateTimeFormatter;
 
-import com.example.springtraining.dto.response.CourseResponse;
+import com.example.springtraining.dto.admin.CourseResponse;
 import com.example.springtraining.entity.Course;
 
 public class CourseResponseMapper {

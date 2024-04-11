@@ -15,7 +15,8 @@
                         <tr>
                             <th scope="col">STT</th>
                             <th scope="col">Tên học viên</th>
-                            <th scope="col">Ngày sinh</th>
+                            <th scope="col">Điện thoại</th>
+                            <th scope="col">Email</th>
                             <th scope="col">Địa chỉ</th>
                             <th scope="col">Điểm thi</th>
                             <th scope="col">Xếp loại</th>
@@ -26,7 +27,8 @@
                         <tr v-for="(enrollment, index) in enrollments" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ enrollment.name }}</td>
-                            <td>{{ enrollment.birthday }}</td>
+                            <td>{{ enrollment.phone }}</td>
+                            <td>{{ enrollment.email }}</td>
                             <td>{{ enrollment.address }}</td>
                             <td>
                                 <input type="text" v-if="enrollment.score !== null" v-model = "enrollment.score" class="form-control transparent-input mx-auto text-center" style="width: 60px;" >
@@ -60,10 +62,10 @@ import HomeSidebar from '@/components/HomeSidebar.vue';
 import store from '@/store/store';
 import { computed, onMounted, ref} from 'vue';
 import {useRoute } from 'vue-router';
-import {getEnrollmentOfClass, sendScore} from '../../service/lecturer/ScoreService';
 
 import { UpdateScore } from '@/interface/lecturer/UpdateScore';
 import { Enrollment } from '@/interface/lecturer/Enrollment';
+import { getEnrollmentOfClass, sendScore } from '@/service/lecturer/ScoreService';
 
 const route = useRoute();
 const jwtToken = computed(() => store.getters.getAccessToken)
@@ -96,16 +98,20 @@ const sendListScore = async () => {
         enrollmentIds: enrollmentIds, 
         statues: statues
     };
+
+    const confirmMessage = "Vui lòng kiểm tra kỹ lại trước khi nhập vào hệ thống? Nhấn OK để gửi dữ liệu lên hệ thống.";
    
-    if(updateScore !== null) {
+    if(updateScore !== null && confirm(confirmMessage)) {
         try {
             const response = await sendScore(updateScore, jwtToken.value);
+            alert("Điểm của học viên đã được cập nhật thành công!!")
             console.log("enrollments: ", enrollments.value)
             console.log("updateScore.value.statues, ", updateScore.statues)
             console.log("updateScore.value: ", updateScore)
             console.log("Sending score is successfully!", response)
         } catch(error) {
             console.log("Having a error while update score");
+            alert("Không thể cập nhật điểm của học viên! Vui lòng kiểm tra lại")
             console.log("enrollments: ", enrollments.value)
             console.log("updateScore.value.statues, ", updateScore.statues)
             console.log("updateScore.value: ", updateScore)
@@ -128,7 +134,5 @@ onMounted(async() => {
 </script>
 
 <style>
-#btn-excel {
-    margin-left: 50px;
-}
-</style>@/interface/lecturer/Enrollment
+@import url(DetailAssignmentView.css);
+</style>

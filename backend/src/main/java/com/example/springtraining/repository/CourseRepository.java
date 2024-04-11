@@ -27,8 +27,9 @@ public interface CourseRepository extends JpaRepository<Course, Long>{
     Course findByCourseId(Long courseId);
 
     @Transactional
-    @Query("SELECT c.subjects FROM Course c WHERE c.courseId = :courseId")
+    @Query("SELECT s FROM Course c JOIN c.subjects s WHERE c.courseId = :courseId")
     List<Subject> findSubjectsByCourseId(Long courseId);
+
 
     @Transactional
     @Query("SELECT c FROM Course c")
@@ -41,5 +42,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>{
     @Transactional
     @Query("SELECT c FROM Course c JOIN c.classrooms classroom WHERE classroom.classroomId = :classroomId")
     Course findByClassroomId(Long classroomId);
+
+    
 
 }

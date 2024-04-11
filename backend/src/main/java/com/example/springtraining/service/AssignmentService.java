@@ -2,6 +2,7 @@ package com.example.springtraining.service;
 
 import java.util.List;
 
+import com.example.springtraining.dto.CheckAssignmentDto;
 import com.example.springtraining.dto.lecturer.AssignmentLecturerDto;
 import com.example.springtraining.entity.Assignment;
 
@@ -10,4 +11,5 @@ public interface AssignmentService {
 
     List<AssignmentLecturerDto> findAssignmentOfEmailLecturer(String email);
 
+    Assignment updateAssignment(CheckAssignmentDto checkAssignmentDto);
 }

@@ -14,8 +14,10 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
     @Transactional
     Classroom save(Classroom classroom);
 
+    @Transactional
     @Query("SELECT classroom FROM Classroom classroom WHERE classroom.codeClassroom = :codeClassroom")
     Classroom findByCodeClassroom(@Param("codeClassroom") String codeClassroom);
 
+    @Transactional
     Classroom findByClassroomId(Long classroomId);
 }

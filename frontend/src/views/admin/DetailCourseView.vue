@@ -11,9 +11,9 @@
             <!-- Start: Content tab -->
             <div class="row">
                 <div class="col-10">
-                    <table class="table">
+                    <table class="table" v-if="subjectResponses != null">
                         <thead>
-                            <tr>
+                            <tr>xam
                                 <th scope="col">#</th>
                                 <th scope="col">Tên môn học</th>
                                 <th scope="col">Nội dung học</th>
@@ -29,11 +29,13 @@
                                 <td>{{ subject.content }}</td>
                                 <td>{{ subject.estimate }} tháng</td>
                                 <td>
-                                    <button v-if = "!subject.isDeleted" class = "delete-btn" id = "deleteBtnId" @click = "actionWithSubject(true, subject.subjectId)"></button>
-                                    <button v-else class = "open-btn" id = "openBtnId" @click = "actionWithSubject(false, subject.subjectId)"></button>
+                                    <button v-if="!subject.isDeleted" class="delete-btn" id="deleteBtnId"
+                                        @click="actionWithSubject(true, subject.subjectId)"></button>
+                                    <button v-else class="open-btn" id="openBtnId"
+                                        @click="actionWithSubject(false, subject.subjectId)"></button>
                                 </td>
                                 <td>
-                                    <button class = "edit-btn"></button>
+                                    <button class="edit-btn"></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -82,7 +84,7 @@
                                                 <option value="Chưa chọn chuyên môn" disabled selected>Chọn chuyên môn
                                                 </option>
                                                 <option v-for="(major, index) in majors" :key="index" :value="major">{{
-                                major }}</option>
+                                                    major }}</option>
                                             </select>
                                         </div>
                                     </div> <br>
@@ -146,7 +148,7 @@ const getSubjectsByCourseId = async (courseId: number) => {
     try {
         const response = await axios.get<SubjectResponse[]>("http://localhost:8080/course-management/admin/detail-course/" + courseId, {
             headers: {
-            'Authorization': `Bearer ${jwtToken.value}`
+                'Authorization': `Bearer ${jwtToken.value}`
             }
         });
         subjectResponses.value = response.data;
@@ -206,8 +208,8 @@ const getAllMajor = async () => {
     try {
         const response = axios.get<string[]>("http://localhost:8080/course-management/admin/get-all-majors", {
             headers: {
-            'Authorization': `Bearer ${jwtToken.value}`
-        }
+                'Authorization': `Bearer ${jwtToken.value}`
+            }
         });
         majors.value = (await response).data
         console.log("Get major successful!, data: ", majors.value);
@@ -223,9 +225,9 @@ const actionWithSubject = async (isDeleted: boolean, subjectId: any) => {
             params: {
                 subjectId: subjectId,
                 isDeleted: isDeleted
-            }, 
+            },
             headers: {
-            'Authorization': `Bearer ${jwtToken.value}`
+                'Authorization': `Bearer ${jwtToken.value}`
             }
         });
         console.log("Action successful!", response);
@@ -251,6 +253,7 @@ const actionWithSubject = async (isDeleted: boolean, subjectId: any) => {
     border-collapse: collapse;
     width: 100%;
 }
+
 .edit-btn {
     background-image: url('/src/assets/edit.png');
     background-size: cover;
@@ -261,7 +264,7 @@ const actionWithSubject = async (isDeleted: boolean, subjectId: any) => {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-  }
+}
 
 .delete-btn:hover {
     background-color: #ffca28;
@@ -296,6 +299,7 @@ const actionWithSubject = async (isDeleted: boolean, subjectId: any) => {
 }
 
 .open-btn:hover {
-    background-color: #218838;;
+    background-color: #218838;
+    ;
 }
 </style>

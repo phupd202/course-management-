@@ -1,4 +1,4 @@
-package com.example.springtraining.dto.response;
+package com.example.springtraining.dto.admin;
 
 
 import lombok.AllArgsConstructor;

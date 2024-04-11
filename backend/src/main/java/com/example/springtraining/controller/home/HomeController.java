@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springtraining.config.service.MailSenderService;
+import com.example.springtraining.dto.admin.CourseResponse;
 import com.example.springtraining.dto.email.MailConfirmRegister;
 import com.example.springtraining.dto.guest.DetailCourse;
 import com.example.springtraining.dto.guest.InterestedPartyDto;
 import com.example.springtraining.dto.response.ClassroomOfCourse;
-import com.example.springtraining.dto.response.CourseResponse;
 import com.example.springtraining.entity.Classroom;
 import com.example.springtraining.entity.Course;
 import com.example.springtraining.entity.InterestedParty;

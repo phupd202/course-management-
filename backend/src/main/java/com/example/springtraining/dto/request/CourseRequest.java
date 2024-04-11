@@ -13,4 +13,6 @@ public class CourseRequest {
     private String url;
 
     private String description;
+
+    private Double price;
 }

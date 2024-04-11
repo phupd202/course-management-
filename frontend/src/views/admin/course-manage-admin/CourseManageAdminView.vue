@@ -54,6 +54,13 @@
                       </div> <br>
 
                       <div class="form-group row">
+                        <label for="priceId" class="col-sm-3 col-form-label">Giá khoá học: </label>
+                        <div class="col-sm-9">
+                          <input type="text" v-model="courseData.price" class="form-control" id="priceId">
+                        </div>
+                      </div> <br>
+
+                      <div class="form-group row">
                         <label for="decriptionId" class="col-sm-3 col-form-label">Mô tả:</label>
                         <div class="col-sm-9">
                           <textarea v-model="courseData.description" class="form-control" rows="5"
@@ -63,7 +70,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
-                        @click="createCourse">Tạo</button>
+                        @click="createNewCourse">Tạo</button>
                     </div>
                   </div>
                 </div>
@@ -152,12 +159,12 @@
                   <!-- Edit thông tin khoá học -->
                   <td>
                     <button class="edit-btn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"
-                      @click="showModalEdit = true">
+                     @click="showUpdate">
                     </button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel"
-                      aria-hidden="true">
+                      aria-hidden="true" v-show = "showUpdateModal">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -169,7 +176,7 @@
                             <div class="form-group row">
                               <label for="courseNameId" class="col-sm-3 col-form-label">Tên khoá học:</label>
                               <div class="col-sm-9">
-                                <input type="text" v-model="editCourse.nameCourse" class="form-control"
+                                <input type="text" v-model="course.nameCourse" class="form-control"
                                   id="editCourseNameId">
                               </div>
                             </div> <br>
@@ -177,8 +184,7 @@
                             <div class="form-group row">
                               <label for="imageId" class="col-sm-3 col-form-label">URL: </label>
                               <div class="col-sm-9">
-                                <input type="text" v-model="editCourse.url" class="form-control" id="editUrl"
-                                  v-bind:placeholder="course.url">
+                                <input type="text" v-model="course.url" class="form-control" id="editUrl">
                               </div>
                             </div> <br>
 
@@ -186,13 +192,13 @@
                               <label for="decriptionId" class="col-sm-3 col-form-label">Mô tả:</label>
                               <div class="col-sm-9">
                                 <textarea class="form-control" rows="5" id="decriptionId"
-                                  v-model="editCourse.description" :placeholder="course.description"></textarea>
+                                  v-model="course.description" :placeholder="course.description"></textarea>
                               </div>
                             </div>
                           </div>
                           <div class="modal-footer">
                             <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
-                              @click="editCourseFunction(course.courseId)">Cập nhật</button>
+                              @click="updateExistedCourse(course)">Cập nhật</button>
                           </div>
                         </div>
                       </div>
@@ -250,7 +256,7 @@
               <img :src="course.url" class="card-img-top" alt="Ảnh khoá học">
               <!-- body -->
               <div class="card-body">
-                <p class="card-text">{{ course.description }}</p>
+                <p class="card-text">{{ truncateText(course.description, 80) }}</p>
               </div>
 
               <!-- footer -->
@@ -269,51 +275,35 @@
 <script setup lang="ts">
 import HomeHeader from '@/components/HomeHeader.vue';
 import HomeSidebar from '@/components/HomeSidebar.vue';
+import { CourseData } from '@/interface/admin/CourseData';
+import { CourseResponse } from '@/interface/admin/CourseResponse';
+import { createCourse} from '@/service/admin/CourseManagementAdminService';
+import { updateCourse } from '@/service/admin/CourseManagementAdminService';
+import { truncateText } from '@/helpers/texthelper';
 import axios from 'axios';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 const jwtToken = computed(() => store.getters.getAccessToken)
-
-interface CourseData {
-  nameCourse: string;
-  url: string;
-  description: string;
-}
-
-const courseData = ref<CourseData>({
-  nameCourse: '',
-  url: '',
-  description: ''
-});
-
 const showModal = ref(false)
+const showUpdateModal = ref(false)
+
+const showUpdate = () => {
+  showUpdateModal.value = true;
+}
 
 // Hide modal
 const hideModal = () => {
   showModal.value = false;
 }
 
-const createCourse = () => {
-  console.log("Bắt đầu tạo khoá học")
-  const data: CourseData = {
-    nameCourse: courseData.value.nameCourse,
-    url: courseData.value.url,
-    description: courseData.value.description
-  };
-
-  axios.post<CourseData>('http://localhost:8080/course-management/admin/courses', data)
-    .then(response => {
-      console.log('Khoá học đã được tạo:', response.data);
-      resetForm();
-      fetchCourses();
-      hideModal();
-    })
-    .catch(error => {
-      console.error('Lỗi khi tạo khoá học:', error);
-    });
-};
+const courseData = ref<CourseData>({
+  nameCourse: '',
+  url: '',
+  description: '',
+  price: 0
+});
 
 const resetForm = () => {
   courseData.value.nameCourse = '';
@@ -321,16 +311,17 @@ const resetForm = () => {
   courseData.value.description = '';
 };
 
-// Render dữ liệu course
-interface CourseResponse {
-  courseId: number;
-  nameCourse: string | null;
-  createdAt: string;
-  numClass: number;
-  isClosed: boolean;
-  url: string;
-  description: string;
+const createNewCourse = () => {
+  try {
+    createCourse(courseData.value);
+    resetForm();
+    fetchCourses();
+    hideModal();
+  } catch(eror) {
+    console.log("Lỗi khi tạo khoá học")
+  }
 }
+
 
 const courses = ref<CourseResponse[]>([]);
 const pageNumber = ref<number>(0);
@@ -439,118 +430,20 @@ const sendRequestClose = (courseId: number, isClosed: boolean) => {
       console.log("Đường dẫn hiện tại: " + window.location.href)
     })
 }
-
-// Edit thông tin khoá học
-interface EditCourse {
-  courseId: number;
-  nameCourse: string | null;
-  url: string;
-  description: string;
-}
-
-const editCourse = ref<EditCourse>({
-  courseId: -1,
-  nameCourse: '',
-  url: '',
-  description: '',
-});
-
-const editCourseFunction = (courseId: number) => {
-  const data: EditCourse = {
-    courseId: courseId,
-    nameCourse: editCourse.value.nameCourse,
-    url: editCourse.value.url,
-    description: editCourse.value.description
+// ------------update course
+const updateExistedCourse = (courseResponse: CourseResponse) => {
+  try {
+    updateCourse(jwtToken.value, courseResponse) 
+    console.log("Dữ liệu gửi đi: ", courseResponse); 
+    showModal.value = false;
+    alert("Cập nhật thông tin thành công!!");
+  } catch(error) {
+    console.log("Có lỗi xảy ra khi cập nhật thông tin khóa học:", error);
+    alert("Có lỗi xảy ra khi cập nhật thông tin khóa học");
   }
-
-  axios.patch<EditCourse>(`http://localhost:8080/course-management/admin/courses`, data, {
-    headers: {
-      'Authorization': `Bearer ${jwtToken.value}`
-    }
-  })
-    .then(response => {
-      console.log("Bắt đầu gửi dữ liệu - Patch", response.data);
-      console.log("Dữ liệu gửi đi: ", data)
-      fetchCourses();
-      resetFormEdit();
-      hideModalEdit();
-    })
-    .catch(error => {
-      console.log(data.courseId)
-      console.log(data.nameCourse)
-      console.log(data.url)
-      console.log(data.description)
-      console.error("Đã xảy ra lỗi khi gửi yêu cầu PATCH:", error);
-    });
-}
-
-const resetFormEdit = () => {
-  editCourse.value.courseId = -1;
-  editCourse.value.nameCourse = '';
-  editCourse.value.url = '';
-  editCourse.value.description = '';
-}
-
-const showModalEdit = ref(false)
-
-// Hide modal
-const hideModalEdit = () => {
-  showModalEdit.value = false;
-}
+};
 </script>
 
 <style>
-#edit-course-btn {
-  width: 150px;
-  height: 40px;
-}
-
-.edit-btn {
-  background-image: url('/src/assets/edit.png');
-  background-size: cover;
-  width: 40px;
-  height: 40px;
-  background-color: #ffc107;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.delete-btn:hover {
-  background-color: #ffca28;
-}
-
-.delete-btn {
-  background-image: url('/src/assets/delete.png');
-  background-size: cover;
-  width: 40px;
-  height: 40px;
-  background-color: #dc3545;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-.open-btn {
-  background-image: url('/src/assets/open.png');
-  background-size: cover;
-  width: 40px;
-  height: 40px;
-  background-color: #28a745;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.open-btn:hover {
-  background-color: #218838;
-  ;
-}
+@import url(CourseManageAdminView.css);
 </style>

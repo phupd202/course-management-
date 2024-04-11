@@ -15,8 +15,8 @@ public class EnrollmentMapper {
         enrollmentDto.setName(enrollment.getUser().getName());
         enrollmentDto.setAddress(enrollment.getUser().getAddress());
 
-        String birthdayFormatted = enrollment.getUser().getBirthDay().format(DATE_TIME_FORMATTER);
-        enrollmentDto.setBirthday(birthdayFormatted);
+        enrollmentDto.setEmail(enrollment.getUser().getEmail());
+        enrollmentDto.setPhone((enrollment.getUser().getPhone()));
         return enrollmentDto;
     }
 }

@@ -4,11 +4,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springtraining.dto.InterestPartyDtoResponse;
 import com.example.springtraining.dto.LecturerDto;
+import com.example.springtraining.dto.admin.CourseResponse;
 import com.example.springtraining.dto.request.CourseBodyRequest;
 import com.example.springtraining.dto.request.CourseRequest;
 import com.example.springtraining.dto.request.EditCourse;
 import com.example.springtraining.dto.request.SubjectRequest;
-import com.example.springtraining.dto.response.CourseResponse;
 import com.example.springtraining.dto.response.ManageSubjectReponse;
 import com.example.springtraining.entity.Course;
 import com.example.springtraining.entity.InterestedParty;
@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -86,6 +85,7 @@ public class AdminCourseController {
                 newCourse.setDescription(courseRequest.getDescription());
                 newCourse.setUrl(courseRequest.getUrl());
                 newCourse.setIsClosed(true);
+                newCourse.setPrice(courseRequest.getPrice());
 
                 courseService.save(newCourse);
                 return ResponseEntity.ok("Update database thành công");
@@ -125,34 +125,17 @@ public class AdminCourseController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/course")
-    public ResponseEntity<?> closeCourse(@RequestBody EditCourse editCourse) {
-        if(editCourse == null) {
-            return ResponseEntity.badRequest().body("Các tham số không được null!");
-        }
+    @PostMapping("/update-course")
+    public ResponseEntity<?> updateCourse(@RequestBody CourseResponse courseResponse) {
+        try {
+            courseService.updateCourse(courseResponse);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } 
 
-        Long courseId = editCourse.getCourseId();
-        Course course = courseService.findByCourseId(courseId);
 
-        if(course == null) {
-            return ResponseEntity.notFound().build(); 
-        }
-
-        if(editCourse.getDescription() != null) {
-            course.setDescription(editCourse.getDescription());
-        }
-
-        if(editCourse.getNameCourse() != null) { 
-            course.setNameCourse(editCourse.getNameCourse());
-        }
-
-        if(editCourse.getUrl() != null) { 
-            course.setUrl(editCourse.getUrl());
-        }
-        
-        courseService.save(course); 
-
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/detail-course/{courseId}")

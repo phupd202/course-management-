@@ -2,6 +2,7 @@ package com.example.springtraining.service;
 
 import java.util.List;
 
+import com.example.springtraining.dto.SubjectDto;
 import com.example.springtraining.entity.Subject;
 
 public interface SubjectService {
@@ -12,4 +13,6 @@ public interface SubjectService {
     void softDelete(Long subjectId, Boolean isDeleted);
 
     Subject findSubjectById(Long subjectId);
+
+    List<SubjectDto> getSubjectOfClass(Long classroomId);
 }

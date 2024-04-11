@@ -113,7 +113,10 @@
                                 <td>{{ classroom.endDate }}</td>
                                 <td>{{ classroom.sumPeriod }} tháng</td>
                                 <td>{{ classroom.sumStudent }} học viên</td>
-                                <td>Trạng thái her</td>
+                                <td>
+                                    <!-- <span class="badge bg-warning text-dark" v-if="classroom.isFinished">Đã xong</span>
+                                    <span class="badge bg-success" v-else>Đang diễn ra</span> -->
+                                </td>
 
                                 <!-- Action -->
                                 <td>
@@ -349,7 +352,8 @@ interface Classroom {
     endDate: string,
     codeClassroom: string,
     sumPeriod: number | null,
-    sumStudent: number | null
+    sumStudent: number | null,
+    isFinished: boolean
 }
 
 const classrooms = ref<Classroom[]>([]);
@@ -397,11 +401,7 @@ const getEnrollmentOfClassroom = async (classroomId: number | null) => {
         console.error("Có lỗi khi lấy danh sách lớp học", error);
     }
 }
-
-
 onMounted(getOptionSelect);
-
-
 </script>
 
 <style>

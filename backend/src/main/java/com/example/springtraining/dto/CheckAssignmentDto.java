@@ -13,13 +13,16 @@ public class CheckAssignmentDto {
     private String beginDate;
 
     private String endDate;
-
+    
     private String beginTime;
-
+    
     private String endTime;
-
-    private String label;
-
+    
     private Integer dayOfWeek;
+    
+    private Long subjectId;
+    
+    private Long lecturerId;
 
+    private Long classroomId;
 }

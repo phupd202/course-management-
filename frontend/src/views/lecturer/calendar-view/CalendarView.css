@@ -1,0 +1,35 @@
+#calendar-lecturer {
+    background-color: pink;
+    color: black;
+  }
+  
+  #header-calendar {
+      background-color: #007bff;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+  }
+  
+  
+  .fc-event {
+      background-color: #28a745; /* Màu xanh lá cây */
+      color: #ffffff; /* Màu chữ trắng */
+      border: none; /* Không có đường viền */
+  }
+  
+  .custom-calendar {
+      background-color: #f8f9fa; /* Màu nền */
+      color: #343a40; /* Màu chữ chính */
+      border-radius: 5px; /* Bo tròn viền */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  }
+  
+  .header-calendar {
+      background-color: #007bff; /* Màu nền của tiêu đề */
+      color: #ffffff; /* Màu chữ của tiêu đề */
+      padding: 10px; /* Khoảng cách giữa các thành phần */
+      border-radius: 5px; /* Bo tròn viền */
+      margin-bottom: 20px; /* Khoảng cách với phần nội dung */
+  }
+  

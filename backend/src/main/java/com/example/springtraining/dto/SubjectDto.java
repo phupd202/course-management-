@@ -14,7 +14,7 @@ public class SubjectDto {
 
     private String nameSubject;
 
-    private Integer estimate;
+    private Integer estimate; // tính toán
 
     private String beginDate;
 
@@ -28,7 +28,13 @@ public class SubjectDto {
 
     private Integer dayOfWeek;
 
-    private Long lecturerId;
+    private Long lecturerId; // join 
 
-    private String nameLecturer;
+    private String nameLecturer; // join 
+
+    private String phoneLecturer;
+
+    private String emailLecturer;
+
+    private String label;
 }

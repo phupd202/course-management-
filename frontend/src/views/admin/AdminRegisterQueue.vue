@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import HomeHeader from '@/components/HomeHeader.vue';
 import HomeSidebar from '@/components/HomeSidebar.vue';
-import {getAllCourses, getClassroom} from '../../service/home/CourseService';
+import {getAllCourses, getClassroom} from '../../interface/home/CourseService';
 import { CourseResponse } from '@/interface/CourseResponse';
 import { computed, onMounted, ref } from 'vue';
 import { ClassroomOfCourse } from '@/interface/ClassroomOfCourse';

@@ -1,6 +1,9 @@
 package com.example.springtraining.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.springtraining.dto.response.CourseResponse;
+import com.example.springtraining.dto.admin.CourseResponse;
+import com.example.springtraining.dto.response.ClassroomResponse;
 import com.example.springtraining.entity.Classroom;
 import com.example.springtraining.entity.Course;
+import com.example.springtraining.mapper.ClassReponseMapper;
 import com.example.springtraining.mapper.CourseResponseMapper;
 import com.example.springtraining.repository.CourseRepository;
 import com.example.springtraining.service.CourseService;
@@ -63,9 +68,22 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Classroom> findClassroomByCourseId(Long courseId) {
-        return courseRepository.findClassroomByCourseId(courseId);
+    public List<ClassroomResponse> findClassroomByCourseId(Long courseId) {
+        Course course = courseRepository.findByCourseId(courseId);
+
+        if (course != null) {
+            List<Classroom> classrooms = course.getClassrooms();
+
+            if (classrooms != null && !classrooms.isEmpty()) {
+                return classrooms.stream()
+                                .map(ClassReponseMapper::mapToDto)
+                                .collect(Collectors.toList());
+            }
+        }
+
+        return Collections.emptyList();
     }
+
 
     @Override
     public Course findCourseByClassroomId(Long classroomId) {
@@ -78,5 +96,25 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getAllCourse() {
         return courseRepository.findAll();
+    }
+
+    @Override
+    public void updateCourse(CourseResponse courseResponse) {
+        if(courseResponse == null) {
+            throw new NullPointerException("CourseResponse is null!");
+        } else {
+            Long courseId = courseResponse.getCourseId();
+            Course course = courseRepository.findByCourseId(courseId);
+
+            if(course == null) {
+                throw new NullPointerException("course is null");
+            }
+
+            course.setNameCourse(courseResponse.getNameCourse());
+            course.setUrl(courseResponse.getUrl());
+            course.setDescription(courseResponse.getDescription());
+            course.setPrice(courseResponse.getPrice());
+            courseRepository.save(course);
+        }
     }
 }

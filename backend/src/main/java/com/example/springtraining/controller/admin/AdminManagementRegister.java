@@ -59,6 +59,9 @@ public class AdminManagementRegister {
 
     @Autowired
     private ClassroomRepository classroomRepository;
+
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
     
     @GetMapping("/get-register-in-class")
     public ResponseEntity<List<RegisterQueueResponse>> getRegisterInClass(@RequestParam(name = "classroomId") Long classroomId, @RequestParam(name = "courseId") Long courseId) {
@@ -113,25 +116,44 @@ public class AdminManagementRegister {
         Classroom classroom = classroomRepository.findByClassroomId(classroomId);
 
         // create account 
-        User user = new User();
-        user.setEmail(email);
-        user.setPhone(phone);
-        user.setAddress(register.getAddress());
-        user.setRole("USER");
-
-        // create password
+        User existedUser = userRepository.findByEmailUser(email);
         String randomString = UUID.randomUUID().toString();
-        String password = "cls*" + randomString;
+        String password = "Cls*" + randomString;
+        System.out.println("Password: " + password);
 
-        user.setPassword(passwordEncoder.encode(password));
+        if(existedUser == null) {
+            // save user
+            User user = new User();
+            user.setEmail(email);
+            user.setPhone(phone);
+            user.setAddress(register.getAddress());
+            user.setRole("USER");
 
-        Enrollment enrollment = new Enrollment();
-        classroom.getEnrollments().add(enrollment);
+            // save user
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
 
-        userRepository.save(user);
-        List<Enrollment> enrollments = new ArrayList<Enrollment>();
-        enrollments.add(enrollment);
-        user.setEnrollments(enrollments);
+            // save classroom
+            classroomRepository.save(classroom);
+            
+            // save enrollment
+            Enrollment enrollment = new Enrollment();
+            enrollment.setClassroom(classroom);
+            enrollment.setUser(user);
+            enrollmentRepository.save(enrollment);
+        } else {
+            existedUser.setPassword(passwordEncoder.encode(password));
+            userRepository.save(existedUser);
+
+            // save classroom
+            classroomRepository.save(classroom);
+            
+            // save enrollment
+            Enrollment enrollment = new Enrollment();
+            enrollment.setClassroom(classroom);
+            enrollment.setUser(existedUser);
+            enrollmentRepository.save(enrollment);
+        }
 
         // send email
         String subject = "Tài khoản đăng nhập khoá học của bạn ";

@@ -13,12 +13,12 @@
                     <div class="col-md-4" v-for="(assignmentLecturer, idx) in assignmentLecturers" :key="idx">
                         <div class="card shadow-lg" style="width: 100%;">
                             <div class="card-header text-white" id = "header-card">
-                                <h5 class="card-title mb-0">{{ assignmentLecturer.nameSubject }} - {{ assignmentLecturer.codeClassroom }}</h5>
+                                <h5 class="card-title mb-0"> {{ assignmentLecturer.nameSubject }} - {{ assignmentLecturer.codeClassroom }}</h5>
                             </div>
                             <div class="card-body">
                                 <div class="description">
-                                    <p class="card-text"><strong>Lịch học:</strong> Thứ {{ assignmentLecturer.dayOfWeek }} - ({{ assignmentLecturer.beginTime }} - {{ assignmentLecturer.endTime }})</p>
-                                    <p class="card-text"><strong>Thời gian:</strong> Từ {{ assignmentLecturer.beginDate  }} đến {{ assignmentLecturer.endDate }}</p>
+                                    <p class="card-text"><strong>Lịch học:</strong> Thứ {{ assignmentLecturer.dayOfWeek  + 1}} - ({{ assignmentLecturer.beginTime }} - {{ assignmentLecturer.endTime }})</p>
+                                    <p class="card-text"><strong>Thời gian:</strong> Từ {{ formatDateTime(assignmentLecturer.beginDate)  }} - {{ formatDateTime(assignmentLecturer.endDate) }}</p>
                                 </div>
                                 <div class="text-center mt-4">
                                     <router-link class="btn btn-info btn-sm" :to="{ path: '/course-management/lecturer/detail-assignment', query: { classroomId: assignmentLecturer.classroomId , subjectId: assignmentLecturer.subjectId} }">
@@ -42,11 +42,12 @@ import HomeSidebar from '@/components/HomeSidebar.vue';
 import store from '@/store/store';
 import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';
+import { formatDateTime } from '@/helpers/timehelpers';
 
 interface AssignmentLecturer {
     classroomId: number, 
-    beginDate: string | null, 
-    endDate: string | null, 
+    beginDate: string, 
+    endDate: string , 
     beginTime: string | null, 
     endTime: string | null, 
     codeClassroom: string | null, 

@@ -18,7 +18,6 @@ import com.example.springtraining.dto.response.ClassroomResponse;
 import com.example.springtraining.dto.response.StudentOfClassResponse;
 import com.example.springtraining.entity.Classroom;
 import com.example.springtraining.entity.Course;
-import com.example.springtraining.mapper.ClassReponseMapper;
 import com.example.springtraining.mapper.EnrollmentMapper;
 import com.example.springtraining.mapper.SelectCourseMapper;
 import com.example.springtraining.service.ClassroomService;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/course-management/admin/management-class")
@@ -105,15 +103,7 @@ public class AdminClassroomController {
 
     @GetMapping("/{courseId}")
     public ResponseEntity<List<ClassroomResponse>> getAllClass(@PathVariable Long courseId) {
-        List<Classroom> classrooms = courseService.findClassroomByCourseId(courseId);
-    
-        if(classrooms == null || classrooms.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        List<ClassroomResponse> classroomResponses = classrooms.stream()
-                                                                .map(ClassReponseMapper::mapToDto)
-                                                                .collect(Collectors.toList());
+        List<ClassroomResponse> classroomResponses = courseService.findClassroomByCourseId(courseId);
         return ResponseEntity.ok(classroomResponses);
     }
 

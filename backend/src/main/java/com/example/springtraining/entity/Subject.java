@@ -1,5 +1,6 @@
 package com.example.springtraining.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -55,8 +56,8 @@ public class Subject {
     @JoinColumn(name = "enrollmentId")
     private Enrollment enrollment;
 
-    @OneToOne(mappedBy = "subject")
-    private Score score;
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    private List<Score> scores;
 
 }
 

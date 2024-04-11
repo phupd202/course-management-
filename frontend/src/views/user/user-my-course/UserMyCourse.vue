@@ -27,7 +27,6 @@
                             <div :id="'panelsStayOpen-subcollapse' + subIndex" class="accordion-collapse collapse show" :aria-labelledby="'panelsStayOpen-subheading' + subIndex">
                                 <div class="accordion-body">
                                     <p>Nội dung học: {{ subject.content }}</p>
-                                    <p>Kiến thức liên quan: {{ subject.label }}</p>
                                 </div>
                             </div>
                         </div>
@@ -43,11 +42,11 @@
 import HomeHeader from '@/components/HomeHeader.vue';
 import HomeSidebar from '@/components/HomeSidebar.vue';
 import { ClassroomOfCourse } from '@/interface/ClassroomOfCourse';
-import { getMyCourses, getSubjectOfCourse } from '../../service/user/ClassroomService';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { SubjectOfCourse } from '@/interface/SubjectOfCourse';
-import { formatDateTime } from '../../helpers/timehelpers';
+import { formatDateTime } from '@/helpers/timehelpers'; 
+import { getMyCourses, getSubjectOfCourse } from '@/service/user/ClassroomService';
   
 const store = useStore();
 const jwtToken = computed(() => store.getters.getAccessToken);
@@ -77,24 +76,5 @@ onMounted(async () => {
 });
 </script>
 <style>
-.accordion-header {
-    background-color: #333;
-}
-
-.accordion-button {
-    color: #333; 
-}
-
-.accordion-body {
-    background-color: #f8f9fa; 
-}
-
-h4 {
-    color: #333; 
-}
-
-p {
-    color: #666; 
-}
-
+@import url(UserMyCourse.css);
 </style>

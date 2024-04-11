@@ -4,7 +4,8 @@ import java.time.format.DateTimeFormatter;
 
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
-import com.example.springtraining.dto.response.CourseResponse;
+
+import com.example.springtraining.dto.admin.CourseResponse;
 import com.example.springtraining.entity.Course;
 
 public class CourseResponseConverter implements Converter<Course, CourseResponse>{

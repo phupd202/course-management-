@@ -52,8 +52,8 @@ import { computed, onMounted, ref } from 'vue';
 import { getScore } from '@/service/user/ScoreService';
 import { useStore } from 'vuex';
 import { ClassroomOfCourse } from '@/interface/ClassroomOfCourse';
-import { getMyCourses} from '../../service/user/ClassroomService';
-import {formatDateTime} from '../../helpers/timehelpers';
+import { formatDateTime } from '@/helpers/timehelpers';
+import { getMyCourses } from '@/service/user/ClassroomService';
 
 const store = useStore();
 const jwtToken = computed(() => store.getters.getAccessToken)

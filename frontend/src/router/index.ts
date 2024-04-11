@@ -1,23 +1,25 @@
+
 import { createRouter, createWebHistory } from 'vue-router'
 import UpdateInfoView from '@/views/UpdateInfoView.vue'
 import SignInView from '@/views/SignInView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import EnrollmentView from '@/views/EnrollmentView.vue'
-import CourseManageAdminView from '@/views/admin/CourseManageAdminView.vue'
+
 import DetailCourseView from '@/views/admin/DetailCourseView.vue'
 import AdminManagementClass from '@/views/admin/AdminManagementClass.vue'
-import AssignClassroom from '@/views/admin/AssignClassroom.vue'
-import LecturerScoreView from '@/views/lecturer/LecturerScoreView.vue'
-import DetailAssignmentView from '@/views/lecturer/DetailAssignmentView.vue'
-import CalendarView from '@/views/lecturer/CalendarView.vue'
-import HomeUserView from '@/views/guest/HomeUserView.vue'
+
+import HomeUserView from '@/views/guest/home_user/HomeUserView.vue'
 import AdminInterestParty from '@/views/admin/AdminInterestParty.vue'
 import AdminMailTemplate from '@/views/admin/AdminMailTemplate.vue'
 import AdminRegisterQueue from '@/views/admin/AdminRegisterQueue.vue'
-import UserMyCourse from '@/views/user/UserMyCourse.vue'
-import UserScoreView from '@/views/user/UserScoreView.vue'
-import { C } from '@fullcalendar/core/internal-common'
-import DetailCourseGuestView from '@/views/guest/DetailCourseGuestView.vue'
+import DetailCourseGuestView from '@/views/guest/detail_course/DetailCourseGuestView.vue';
+import AssignClassroom from '@/views/admin/assign-classroom/AssignClassroom.vue'
+import CalendarView from '@/views/lecturer/calendar-view/CalendarView.vue'
+import DetailAssignmentView from '@/views/lecturer/detail-assignment/DetailAssignmentView.vue'
+import LecturerScoreView from '@/views/lecturer/lecture-score/LecturerScoreView.vue'
+import UserScoreView from '@/views/user/user-score-view/UserScoreView.vue'
+import UserMyCourse from '@/views/user/user-my-course/UserMyCourse.vue'
+import CourseManageAdminView from '@/views/admin/course-manage-admin/CourseManageAdminView.vue'
 
 const routes = [
   {
@@ -40,7 +42,7 @@ const routes = [
     name: 'enrollment',
     component: EnrollmentView,
     // meta: { requiresAuth: true, allowedRoles: ["USER"] }
-  },  
+  },
   {
     path: '/course-management/admin/courses',
     name: 'adminCourse',
@@ -59,17 +61,18 @@ const routes = [
     component: AdminManagementClass,
     meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
   },
-  {
-    path: '/course-management/admin/assign-classroom/:classroomId',
-    name: 'adminAssignClassroom',
-    component: AssignClassroom,
-    meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
-  },
+
   {
     path: '/course-management/lecturer/score',
     name: 'lecturerScore',
     component: LecturerScoreView,
     meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
+  },
+  {
+    path: '/course-management/admin/assign-classroom/:classroomId',
+    name: 'adminAssignClassroom',
+    component: AssignClassroom,
+    meta: { requiresAuth: true, allowedRoles: ["ADMIN"] }
   },
   {
     path: '/course-management/admin/interest-party',
@@ -86,6 +89,7 @@ const routes = [
       subjectId: route.query.subjectId as number // Ép kiểu route.query.subjectId về kiểu string
     }),
     meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
+
   },
   {
     path: '/course-management/lecturer/calendar',
@@ -93,6 +97,7 @@ const routes = [
     component: CalendarView,
     meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
   },
+
   {
     path: '/course-management/admin/mail-template',
     name: 'adminMailTemplate',
@@ -130,7 +135,7 @@ const routes = [
       courseId: route.params.courseId as number
     })
   }
-  
+
 ]
 
 const router = createRouter({
