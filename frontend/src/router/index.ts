@@ -1,4 +1,5 @@
 
+
 import { createRouter, createWebHistory } from 'vue-router'
 import UpdateInfoView from '@/views/UpdateInfoView.vue'
 import SignInView from '@/views/SignInView.vue'
@@ -6,7 +7,6 @@ import SignUpView from '@/views/SignUpView.vue'
 import EnrollmentView from '@/views/EnrollmentView.vue'
 
 import DetailCourseView from '@/views/admin/DetailCourseView.vue'
-import AdminManagementClass from '@/views/admin/AdminManagementClass.vue'
 
 import HomeUserView from '@/views/guest/home_user/HomeUserView.vue'
 import AdminInterestParty from '@/views/admin/AdminInterestParty.vue'
@@ -20,6 +20,7 @@ import LecturerScoreView from '@/views/lecturer/lecture-score/LecturerScoreView.
 import UserScoreView from '@/views/user/user-score-view/UserScoreView.vue'
 import UserMyCourse from '@/views/user/user-my-course/UserMyCourse.vue'
 import CourseManageAdminView from '@/views/admin/course-manage-admin/CourseManageAdminView.vue'
+import AdminManagementClass from '@/views/admin/manage-classroom/AdminManagementClass.vue'
 
 const routes = [
   {

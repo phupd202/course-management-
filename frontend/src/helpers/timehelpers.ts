@@ -65,3 +65,24 @@ export function formatDateTime(dateTimeStr: string) {
     return formattedDay + '/' + formattedMonth + '/' + year;
 }
 
+export function getCurrentDate() {
+    return new Date();
+}
+
+export function isBeforeCurrentDay(dateTimeStr: string) {
+    const dateTime = new Date(dateTimeStr);
+
+    const currentTime = new Date();
+
+    return currentTime.getTime() > dateTime.getTime();
+}
+
+
+export function isAfterCurrentDay(dateTimeStr: string) {
+    const dateTime = new Date(dateTimeStr);
+
+    const currentTime = new Date();
+
+    return currentTime.getTime() < dateTime.getTime();
+}
+

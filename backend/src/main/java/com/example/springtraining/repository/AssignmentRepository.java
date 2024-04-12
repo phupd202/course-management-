@@ -24,4 +24,8 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     @Transactional
     Assignment save(Assignment assignment);
+
+    @Transactional
+    @Query("SELECT as FROM Assignment as JOIN as.classroom cl JOIN as.subject sb WHERE cl.classroomId = :classroomId AND sb.subjectId = :subjectId")
+    Assignment findBySubjectIdAndClassroomId(Long subjectId, Long classroomId);
 }

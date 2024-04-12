@@ -17,9 +17,11 @@ public class EnrollmentMapper {
         studentOfClassResponse.setAddress(enrollment.getUser().getAddress());
         studentOfClassResponse.setPhone(enrollment.getUser().getPhone());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatedEnrollmentDate = enrollment.getEnrollmentDay().format(formatter);
-        studentOfClassResponse.setEnrollmentDay(formatedEnrollmentDate);
+        if(enrollment.getEnrollmentDay() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatedEnrollmentDate = enrollment.getEnrollmentDay().format(formatter);
+            studentOfClassResponse.setEnrollmentDay(formatedEnrollmentDate);
+        }
         return studentOfClassResponse;
     } 
 }

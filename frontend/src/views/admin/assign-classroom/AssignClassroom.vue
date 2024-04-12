@@ -32,9 +32,14 @@
                                     <p><strong>Thời gian học dự kiến: {{ subject.estimate }} tháng</strong></p>
                                     <p v-if="subject.nameLecturer == null"><strong>Giảng viên phụ trách: Chưa phân công</strong></p>
                                     <p v-else><strong>Giảng viên: {{ subject.nameLecturer }} - {{ subject.phoneLecturer }}</strong></p>
-                                    <p v-if = "subject.nameLecturer == null"> <strong>Trống</strong></p>
+                                    <p v-if = "subject.nameLecturer == null"> <strong>Email: ...</strong></p>
                                     <p v-else> <strong> Email: {{ subject.emailLecturer }} </strong></p>
+                                    <p v-if = "subject.isClosed"> <strong>Trạng thái: </strong><span class="badge bg-success">Đã dạy xong</span></p>
+                                    <!-- <p v-else-if = "subject.nameLecturer != null && isBeforeCurrentDay(subject.beginDate) && isAfterCurrentDay(subject.endDate)"> <strong>Trạng thái: </strong><span class="badge bg-warning text-dark">Chưa diễn ra</span></p>
+                                    <p v-else-if = "subject.isClosed === false  && subject.nameLecturer == null"> <strong>Trạng thái: </strong> <span class="badge bg-info text-dark">Chưa phân công</span></p> -->
+                                    <p v-else><strong>Trạng thái: ........</strong></p>
                                     <!-- data: subjectId, lecturerId -->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -120,6 +125,7 @@ import { SubjectOfClass } from '@/interface/admin/SubjectOfClass';
 import { getLecturerFree, getSubject, saveAssignment } from '@/service/admin/AssignmentClassroomService';
 import { AssignmentRequest } from '@/interface/admin/AssignmentRequest';
 import { Lecturer } from '@/interface/admin/Lecturer';
+// import {isBeforeCurrentDay, isAfterCurrentDay} from '@/helpers/timehelpers';
 
 // store
 const store = useStore();

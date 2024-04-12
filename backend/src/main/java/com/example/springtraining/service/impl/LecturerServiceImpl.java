@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.example.springtraining.dto.CheckAssignmentDto;
 import com.example.springtraining.dto.LecturerDto;
 import com.example.springtraining.dto.lecturer.ScoreDto;
+import com.example.springtraining.entity.Assignment;
 import com.example.springtraining.entity.Classroom;
 import com.example.springtraining.entity.Lecturer;
 import com.example.springtraining.entity.Score;
@@ -171,6 +172,9 @@ public class LecturerServiceImpl implements LecturerService {
             Subject subject = subjectRepository.findBySubjectId(subjectId);
             Classroom classroom = classroomRepository.findByClassroomId(classroomId);
 
+            // must find assignment by subjectId and classroomId
+            Assignment assignment = assignmentRepository.findByClassroomIdAndSubjectId(subjectId, classroomId);
+
             List<Long> enrollmentIds = scoreDto.getEnrollmentIds();
             List<Integer> scores = scoreDto.getScores();
             List<String> statues = scoreDto.getStatues();
@@ -189,6 +193,11 @@ public class LecturerServiceImpl implements LecturerService {
                     existingScore.setScore(scoreValue);
                     existingScore.setStatus(status);
                     scoreRepository.save(existingScore);
+                    
+                    if(assignment != null) {
+                        assignment.setIsClosed(true);
+                        assignmentRepository.save(assignment);
+                    }
                 } else {
                     // Nếu không tồn tại, tạo mới bản ghi điểm
                     Score newScore = new Score();
@@ -199,6 +208,11 @@ public class LecturerServiceImpl implements LecturerService {
                     User user = enrollmentRepository.findByEnrollmentId(enrollmentId).getUser();
                     newScore.setUser(user);
                     scoreRepository.save(newScore);
+
+                    if(assignment != null) {
+                        assignment.setIsClosed(true);
+                        assignmentRepository.save(assignment);
+                    }
                 }
             }
         }

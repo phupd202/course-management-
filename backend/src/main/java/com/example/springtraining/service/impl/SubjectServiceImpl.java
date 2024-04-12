@@ -124,6 +124,7 @@ public class SubjectServiceImpl implements SubjectService {
             subjectDto.setNameLecturer(lecturer.getNameLecture());
             subjectDto.setEmailLecturer(lecturer.getEmail());
             subjectDto.setPhoneLecturer(lecturer.getPhone());
+            subjectDto.setIsClosed(assignment.getIsClosed());
         } else {
             subjectDto.setSubjectId(subjectId);
             subjectDto.setNameSubject(subject.getNameSubject());

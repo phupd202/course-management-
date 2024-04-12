@@ -1,27 +1,20 @@
 <template>
   <nav id="sidebarMenu" class="d-lg-block sidebar bg-white">
     <div class="list-group list-group-flush mx-3 mt-4">
-      <div>
+      <div class="menu-group">
         <a v-if="isUser" href="#" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Thông tin cá nhân</span>
         </a>
-        
-        <router-link v-if = "isAdmin" to="/course-management/admin/courses" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý khoá học</span>
-        </router-link>
+      
 
         <router-link  v-if ="isLecturer" to="/course-management/lecturer/info" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Thông tin cá nhân</span>
         </router-link>
       </div>
 
-      <div>
-          <router-link v-if="isUser" to="/course-management/user/my-course" class="list-group-item list-group-item-action rounded-3 py-3">
-            <i class="fas fa-lock fa-fw me-2"></i><span>Khoá học của tôi</span>
-          </router-link>
-
-        <router-link v-if="isAdmin" to="/course-management/admin/management-class" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lớp học</span>
+      <div class="menu-group">
+        <router-link v-if="isUser" to="/course-management/user/my-course" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-lock fa-fw me-2"></i><span>Khoá học của tôi</span>
         </router-link>
 
         <router-link  v-if ="isLecturer" to="/course-management/lecturer/score" class="list-group-item list-group-item-action rounded-3 py-3">
@@ -29,8 +22,7 @@
         </router-link>
       </div>
       
-      <div>
-
+      <div class="menu-group">
         <router-link v-if = "isUser" to="/course-management/user/my-score" class="list-group-item list-group-item-action rounded-3 py-3">
           <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Xem điểm</span>
         </router-link>
@@ -41,21 +33,26 @@
 
       </div>
 
-      <div>
+      <div class="menu-group">
+        <router-link v-if="isAdmin" to="/course-management/admin/courses" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-tasks fa-fw me-2"></i><span>Quản lý khoá học</span>
+        </router-link>
+
+        <router-link v-if="isAdmin" to="/course-management/admin/management-class" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lớp học</span>
+        </router-link>
+
         <router-link v-if="isAdmin" to="/course-management/admin/interest-party" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-lock fa-fw me-2"></i><span>Lịch chờ tư vấn</span>
+          <i class="fas fa-calendar-week fa-fw me-2"></i><span>Lịch chờ tư vấn</span>
         </router-link>
-      </div>
+    
 
-      <div>
         <router-link v-if="isAdmin" to="/course-management/admin/register-queue" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-lock fa-fw me-2"></i><span>Đơn đăng ký</span>
+          <i class="fas fa-user-friends fa-fw me-2"></i><span>Đơn đăng ký</span>
         </router-link>
-      </div>
 
-      <div>
         <router-link v-if="isAdmin" to="/course-management/admin/mail-template" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-lock fa-fw me-2"></i><span>Template Mail</span>
+          <i class="fas fa-envelope fa-fw me-2"></i><span>Template Mail</span>
         </router-link>
       </div>
 
@@ -63,6 +60,7 @@
     </div>
   </nav>
 </template>
+
 
 
 <script setup lang="ts">
@@ -167,4 +165,26 @@ a {
 .list-group-item span {
     font-weight: bold; 
 }
+
+.menu-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Canh chỉnh các item theo chiều dọc */
+}
+
+.menu-group router-link {
+    flex: 1; /* Mở rộng các router-link để chia đều không gian */
+    text-align: center; /* Canh giữa nội dung */
+}
+
+.menu-group router-link .list-group-item {
+    display: flex;
+    align-items: center;
+}
+
+.menu-group router-link .list-group-item span {
+    flex: 1; /* Mở rộng nội dung span để chia đều không gian */
+    text-align: left; /* Canh giữa nội dung span theo chiều ngang */
+}
+
 </style>
