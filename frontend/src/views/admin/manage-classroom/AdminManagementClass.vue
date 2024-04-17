@@ -1,13 +1,6 @@
 <template>
-    <header>
-        <HomeSidebar></HomeSidebar>
-        <HomeHeader></HomeHeader>
-    </header>
-
-    <!-- Content -->
-    <main style="margin-top: 58px; margin-left: 60px;">
-        <!-- content -->
-        <div class="container pt-4">
+    <PageLayout>
+        <template v-slot:content>
             <h3>Quản lý lớp học</h3><br>
             <div class="row">
                 <!-- Bộ lọc -->
@@ -113,16 +106,19 @@
                                 <td>{{ classroom.sumPeriod }} tháng</td>
                                 <td>{{ classroom.sumStudent }} học viên</td>
                                 <td>
-                                    <!-- <span class="badge bg-warning text-dark" v-if="classroom.isFinished">Đã xong</span>
-                                    <span class="badge bg-success" v-else>Đang diễn ra</span> -->
+                                    <span class="badge bg-primary" v-if="classroom.isFinished && isBeforeCurrentDay(classroom.endDate)">Đã kết thúc</span>
+                                    <span class="badge bg-warning text-dark" v-else-if="classroom.isFinished == false && isBeforeCurrentDay(classroom.beginDate) && isAfterCurrentDay(classroom.endDate)">Đang diễn ra</span>
+                                    <span class="badge bg-success" v-else-if="isBeforeCurrentDay(classroom.beginDate)">Chưa diễn ra</span>
+                                    <span class="badge bg-info text-dark" v-else>Chưa có dữ liệu</span>
+
                                 </td>
 
                                 <!-- Action -->
                                 <td>
-                                    <button type="button" data-bs-toggle="modal"
+                                    <button data-bs-toggle="modal" class = "btn edit-btn"
                                         data-bs-target="#listStudent"
                                         @click="getEnrollmentOfClassroom(classroom.classroomId)">
-                                        <i class="fas fa-bars"></i>
+                                        <!-- <i class="fas fa-list"></i> -->
                                     </button>
 
                                     <!-- Modal -->
@@ -217,15 +213,14 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import axios from 'axios';
-import { formatDateTime } from '@/helpers/timehelpers';
+import { formatDateTime, isBeforeCurrentDay, isAfterCurrentDay } from '@/helpers/timehelpers';
 import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { Enrollment } from '@/interface/admin/Enrollment';

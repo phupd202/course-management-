@@ -59,4 +59,6 @@ public class Classroom {
 
     @OneToMany(mappedBy = "classroom")
     private List<Score> scores;
+
+    private Boolean isFinished;
 }

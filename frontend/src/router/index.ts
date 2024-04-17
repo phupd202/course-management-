@@ -21,6 +21,7 @@ import UserScoreView from '@/views/user/user-score-view/UserScoreView.vue'
 import UserMyCourse from '@/views/user/user-my-course/UserMyCourse.vue'
 import CourseManageAdminView from '@/views/admin/course-manage-admin/CourseManageAdminView.vue'
 import AdminManagementClass from '@/views/admin/manage-classroom/AdminManagementClass.vue'
+import TestView from '@/views/test/TestView.vue'
 
 const routes = [
   {
@@ -135,7 +136,12 @@ const routes = [
     props: (route: { params: { courseId: number } }) => ({
       courseId: route.params.courseId as number
     })
-  }
+  }, 
+  {
+    path: '/test',
+    name: 'test',
+    component: TestView
+  },
 
 ]
 

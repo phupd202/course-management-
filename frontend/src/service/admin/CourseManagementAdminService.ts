@@ -28,3 +28,19 @@ export async function updateCourse(jwtToken: string, courseResponse: CourseRespo
         console.log("Hav a error when update course")
     }
 }
+
+// search course
+export async function searchCourse(keyword: string): Promise<CourseResponse[]> {
+    try {
+        const response = await axios.get<CourseResponse[]>("http://localhost:8080/course-management/admin/search-course", {
+            params: {
+                keyword: keyword
+            }
+        });
+        console.log("Fetch course by keyword successfull!")
+        return response.data;
+    } catch(error) {
+        console.log("Hava a error while search!!")
+        throw error;
+    }
+}

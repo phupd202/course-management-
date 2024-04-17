@@ -1,11 +1,6 @@
 <template>
-    <header>
-        <HomeHeader></HomeHeader>
-        <HomeSidebar></HomeSidebar>
-    </header>
-
-    <main style="margin-top: 58px; margin-left: 60px">
-        <div class="container py-4">
+    <PageLayout>
+        <template v-slot:content>
             <h2 class="mb-4 text-general">Chi tiết lớp học</h2> <br>
             <div class="row d-flex justify-content-center mb-30 list-subject">
                 <h3 style="margin-bottom: 50px;" class = "text-general">Danh sách môn học</h3>
@@ -42,13 +37,25 @@
                                     
                                 </div>
                             </div>
+
                         </div>
                         <!-- End subject -->
+
+                        <!-- Sum finished subject -->
+
+                        <div class="finished-subject" >
+                            <p style="color: #333; font-size: 20px; font-weight: bold;">Tổng số môn đã hoàn thành: <span style="color: #28a745;">{{ countFishedSubject(subjects) }}</span> / <span>{{ subjects.length }}</span></p>
+                        </div>
+
+                        <!-- Close classroom -->
+                        <div class="close-classroom" v-if="countFishedSubject(subjects) == subjects.length">
+                            <button type="button" class="btn btn-primary" @click="closeClassroomMain()">Đóng lớp</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
+            <!-- Mục phân công:  -->
             <div class="row justify-content-center mt-50">
                 <div class="col-md-6 assign-form">
                     <h3 class="text-center text-general" style="margin-top: 50px;">Phân công môn học</h3>
@@ -111,25 +118,26 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref} from 'vue';
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
+import { computed, onMounted, ref, watch} from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { SubjectOfClass } from '@/interface/admin/SubjectOfClass';
-import { getLecturerFree, getSubject, saveAssignment } from '@/service/admin/AssignmentClassroomService';
+import { getLecturerFree, getSubject, saveAssignment, countFishedSubject, closeClassroom, autoFillEndDate } from '@/service/admin/AssignmentClassroomService';
 import { AssignmentRequest } from '@/interface/admin/AssignmentRequest';
 import { Lecturer } from '@/interface/admin/Lecturer';
+
 // import {isBeforeCurrentDay, isAfterCurrentDay} from '@/helpers/timehelpers';
 
 // store
 const store = useStore();
 const jwtToken = computed(() => store.getters.getAccessToken)
+
 const subjects = ref<SubjectOfClass[]>([]);
 
 // param
@@ -156,6 +164,11 @@ const showSelected = (event : Event) => {
   isShowSelected.value = !isShowSelected.value; 
   fetchedFreeLecturer()
 }
+
+// const showSelected = () => {
+//   isShowSelected.value = !isShowSelected.value; 
+//   fetchedFreeLecturer()
+// }
 
 // const hideSelected = () => {
 //     isShowSelected.value = false;
@@ -198,11 +211,33 @@ const saveAssignmentWrapper = async () => {
     }
 }
 
+const closeClassroomMain = async () => {
+    try {
+        closeClassroom(classroomId, jwtToken.value)
+    } catch(error) {
+        console.log("Have a error when close classroom!")
+    }
+}
+
 onMounted(async () => {
     // fetch subject of class
     const fetchedSubject = await getSubject(classroomId, jwtToken.value);
     subjects.value = fetchedSubject;
 });
+
+watch([() => assignmentRequest.value.beginDate, 
+    () => assignmentRequest.value.subjectId],
+    ([beginDate, subjectId]) => {
+    console.log("Watch is running!");
+    if (beginDate && subjectId !== null) {
+        // if fill begin date and subjectId --> auto fill end date
+        const endDate = autoFillEndDate(assignmentRequest.value.subjectId, assignmentRequest.value.beginDate, subjects.value);
+        assignmentRequest.value.endDate = endDate;
+        console.log("assignmentRequest.value.subjectId: ", assignmentRequest.value.subjectId)
+        console.log("subjects: ", subjects)
+    }
+});
+
 </script>
 
 <style>

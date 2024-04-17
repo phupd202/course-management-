@@ -1,71 +1,53 @@
 <template>
-  <nav id="sidebarMenu" class="d-lg-block sidebar bg-white">
+<nav id="sidebarMenu" class="d-lg-block sidebar bg-white">
     <div class="list-group list-group-flush mx-3 mt-4">
       <div class="menu-group">
-        <a v-if="isUser" href="#" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Thông tin cá nhân</span>
-        </a>
-      
-
-        <router-link  v-if ="isLecturer" to="/course-management/lecturer/info" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Thông tin cá nhân</span>
+        <router-link  v-for="(menu, index) in props.menus" :key = "index" :to = "menu.path" class="list-group-item list-group-item-action rounded-3 py-3">
+          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>{{ menu.nameMenu }}</span>
         </router-link>
       </div>
-
-      <div class="menu-group">
-        <router-link v-if="isUser" to="/course-management/user/my-course" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-lock fa-fw me-2"></i><span>Khoá học của tôi</span>
-        </router-link>
-
-        <router-link  v-if ="isLecturer" to="/course-management/lecturer/score" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý điểm</span>
-        </router-link>
-      </div>
-      
-      <div class="menu-group">
-        <router-link v-if = "isUser" to="/course-management/user/my-score" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Xem điểm</span>
-        </router-link>
-
-        <router-link v-if = "isLecturer" to="/course-management/lecturer/calendar" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lịch dạy</span>
-        </router-link>
-
-      </div>
-
-      <div class="menu-group">
-        <router-link v-if="isAdmin" to="/course-management/admin/courses" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tasks fa-fw me-2"></i><span>Quản lý khoá học</span>
-        </router-link>
-
-        <router-link v-if="isAdmin" to="/course-management/admin/management-class" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>Quản lý lớp học</span>
-        </router-link>
-
-        <router-link v-if="isAdmin" to="/course-management/admin/interest-party" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-calendar-week fa-fw me-2"></i><span>Lịch chờ tư vấn</span>
-        </router-link>
-    
-
-        <router-link v-if="isAdmin" to="/course-management/admin/register-queue" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-user-friends fa-fw me-2"></i><span>Đơn đăng ký</span>
-        </router-link>
-
-        <router-link v-if="isAdmin" to="/course-management/admin/mail-template" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-envelope fa-fw me-2"></i><span>Template Mail</span>
-        </router-link>
-      </div>
-
-      <router-view/>
     </div>
-  </nav>
+</nav>
 </template>
 
-
-
 <script setup lang="ts">
+import { Menu } from '@/interface/sidebar/Menu';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { defineProps } from 'vue';
+
+const props = defineProps<{
+    menus: Menu[]
+}>();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const isUser = ref<boolean>(false);
 const isAdmin = ref<boolean>(false);
@@ -144,7 +126,7 @@ a {
     border-radius: 10px;
 }
 
-  /* Màu của liên kết khi được active */
+/* Màu của liên kết khi được active */
 .list-group-item.active {
     background-color:  #003E83;
     color: #fff;
@@ -186,5 +168,4 @@ a {
     flex: 1; /* Mở rộng nội dung span để chia đều không gian */
     text-align: left; /* Canh giữa nội dung span theo chiều ngang */
 }
-
 </style>

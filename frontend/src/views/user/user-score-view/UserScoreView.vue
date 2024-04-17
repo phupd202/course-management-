@@ -1,11 +1,6 @@
 <template>
-     <header>
-        <HomeSidebar></HomeSidebar>
-        <HomeHeader></HomeHeader>
-    </header>
-
-    <main style="margin-top: 58px; margin-left: 60px">
-        <div class="container pt-4">
+    <PageLayout>
+        <template v-slot:content>
             <h3>Điểm thi</h3> <br>
             <div class = "row d-flex justify-content-center">
                 <div class="col-md-6">
@@ -40,13 +35,13 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </main>
+
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang = "ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import { Score } from '@/interface/Score';
 import { computed, onMounted, ref } from 'vue';
 import { getScore } from '@/service/user/ScoreService';

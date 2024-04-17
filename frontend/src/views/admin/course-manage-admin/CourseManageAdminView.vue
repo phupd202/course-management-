@@ -1,23 +1,17 @@
 <template>
-  <header>
-    <HomeSidebar></HomeSidebar>
-    <HomeHeader></HomeHeader>
-  </header>
-
-  <main style="margin-top: 58px; margin-left: 60px">
-    <div class="container pt-4">
+  <PageLayout>
+    <template v-slot:content>
       <br>
-      <!-- Content -->
       <div class="card">
         <!-- Body -->
         <div class="card-body">
           <div class="row">
 
-            <!-- Input cho Điểm số -->
+            <!-- Tìm kiếm-->
             <div class="col-9">
               <div class="form-group">
-                <input type="text" class="form-control" id="gradeFilter" placeholder="Nhập khoá hoc">
-                <button class="btn btn-primary" id="search-button" type="submit">Tìm kiếm</button>
+                <input type="text" class="form-control" id="gradeFilter" placeholder="Khoá học cần tìm kiếm..." v-model="keyword">
+                <button class="btn btn-primary" id="search-button" type="submit" @click="fetchResultCourse()">Tìm kiếm</button>
               </div>
             </div>
 
@@ -25,8 +19,8 @@
             <div class="col-3">
               <!-- Button trigger modal -->
               <button type="button" id="add-course-btn" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#exampleModal" @click="showModal = true">
-                Thêm khoá học
+                data-bs-target="#exampleModal" @click="showModal = true" style="width: 150px">
+                Thêm khoá học +
               </button>
 
               <!-- Modal -->
@@ -97,7 +91,8 @@
                     <div class="filters">
                       <div class="form-group">
                         <label for="courseName">Tên khoá học:</label>
-                        <input type="text" class="form-control" id="courseName" v-model="filterName">
+                        <input type="text" class="form-control" id="courseName" v-model="filterName"
+                          style="margin-bottom: 0px">
                       </div>
                     </div>
                   </th>
@@ -124,7 +119,7 @@
                     <div class="filters">
                       <div class="form-group">
                         <label for="status">Trạng thái:</label>
-                        <select class="form-control" id="status" v-model="filterStatus">
+                        <select class="form-control" id="status" v-model="filterStatus" style="margin-bottom: 0px;" name = "status">
                           <option value="">-- Chọn trạng thái --</option>
                           <option value="Đang mở">Đang mở</option>
                           <option value="Đã đóng">Đã đóng</option>
@@ -159,12 +154,12 @@
                   <!-- Edit thông tin khoá học -->
                   <td>
                     <button class="edit-btn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"
-                     @click="showUpdate">
+                      @click="showUpdate">
                     </button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel"
-                      aria-hidden="true" v-show = "showUpdateModal">
+                      aria-hidden="true" v-show="showUpdateModal">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -191,8 +186,8 @@
                             <div class="form-group row">
                               <label for="decriptionId" class="col-sm-3 col-form-label">Mô tả:</label>
                               <div class="col-sm-9">
-                                <textarea class="form-control" rows="5" id="decriptionId"
-                                  v-model="course.description" :placeholder="course.description"></textarea>
+                                <textarea class="form-control" rows="5" id="decriptionId" v-model="course.description"
+                                  :placeholder="course.description"></textarea>
                               </div>
                             </div>
                           </div>
@@ -215,71 +210,45 @@
                 </tr>
               </tbody>
             </table>
-
-            <!-- Phân trang -->
-            <div class="d-flex justify-content-center">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item">
-                    <button class="page-link" :disabled="pageNumber === 0" @click="previousPage"
-                      :class="{ 'fw-bold': pageNumber === 0 }">
-                      <span aria-hidden="true">&laquo;</span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                  </li>
-                  <li class="page-item"><span class="page-link">{{ pageNumber + 1 }}</span></li>
-                  <li class="page-item">
-                    <button class="page-link" @click="nextPage" :disabled="pageNumber + 1 === totalPages"
-                      :class="{ 'fw-bold': pageNumber + 1 === totalPages }">
-                      <span aria-hidden="true">&raquo;</span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
           </div>
         </div>
-        <!-- Khoá học đã đóng -->
-        <hr>
-        <div class="course-close">
-          <h4 class="text-primary font-weight-bold">Danh sách khoá học</h4>
-          <br>
-          <!-- card -->
-          <div class="d-flex justify-content-between mt-30">
-            <div class="card" style="width: 18rem;" v-for="(course, index) in filteredCourses" v-bind:key=index>
-              <div>
-                <span v-if="course.isClosed" class="badge rounded-pill bg-warning">Đã đóng</span>
-                <span v-else class="badge rounded-pill bg-success">Đang mở</span>
-              </div>
-              <h5> {{ course.nameCourse }}</h5>
-              <img :src="course.url" class="card-img-top" alt="Ảnh khoá học">
-              <!-- body -->
-              <div class="card-body">
-                <p class="card-text">{{ truncateText(course.description, 80) }}</p>
-              </div>
 
-              <!-- footer -->
-              <div class="card-footer">
-                <button class="btn btn-primary">Chi tiết</button>
-              </div>
-            </div>
 
-          </div>
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-center fixed-pagination">
+          <nav aria-label="Page navigation example" style="width: 200px; height: 40px;">
+            <ul class="pagination">
+              <li class="page-item">
+                <button class="page-link" :disabled="pageNumber === 0" @click="previousPage"
+                  :class="{ 'fw-bold': pageNumber === 0 }">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+              </li>
+              <li class="page-item"><span class="page-link">{{ pageNumber + 1 }}</span></li>
+              <li class="page-item">
+                <button class="page-link" @click="nextPage" :disabled="pageNumber + 1 === totalPages"
+                  :class="{ 'fw-bold': pageNumber + 1 === totalPages }" id = "page-link-course">
+                  <span aria-hidden="true" >&raquo;</span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
+
       </div>
-    </div>
-  </main>
+    </template>
+  </PageLayout>
 </template>
 
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import { CourseData } from '@/interface/admin/CourseData';
 import { CourseResponse } from '@/interface/admin/CourseResponse';
-import { createCourse} from '@/service/admin/CourseManagementAdminService';
-import { updateCourse } from '@/service/admin/CourseManagementAdminService';
-import { truncateText } from '@/helpers/texthelper';
+import { createCourse } from '@/service/admin/CourseManagementAdminService';
+import { updateCourse, searchCourse } from '@/service/admin/CourseManagementAdminService';
+// import { truncateText } from '@/helpers/texthelper';
 import axios from 'axios';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
@@ -317,17 +286,25 @@ const createNewCourse = () => {
     resetForm();
     fetchCourses();
     hideModal();
-  } catch(eror) {
+  } catch (eror) {
     console.log("Lỗi khi tạo khoá học")
   }
 }
 
+const keyword:string = "";
 
 const courses = ref<CourseResponse[]>([]);
 const pageNumber = ref<number>(0);
 const totalPages = ref<number>(1);
+const resultCourse = ref<CourseResponse[]>([]);
 
-// fetch api
+const fetchResultCourse = async () => {
+   const data = await searchCourse(keyword);
+   resultCourse.value = data;
+}
+
+
+// fetch course api
 const fetchCourses = async () => {
   try {
     const response = await axios.get<{ content: CourseResponse[]; totalPages: number }>(
@@ -433,11 +410,11 @@ const sendRequestClose = (courseId: number, isClosed: boolean) => {
 // ------------update course
 const updateExistedCourse = (courseResponse: CourseResponse) => {
   try {
-    updateCourse(jwtToken.value, courseResponse) 
-    console.log("Dữ liệu gửi đi: ", courseResponse); 
+    updateCourse(jwtToken.value, courseResponse)
+    console.log("Dữ liệu gửi đi: ", courseResponse);
     showModal.value = false;
     alert("Cập nhật thông tin thành công!!");
-  } catch(error) {
+  } catch (error) {
     console.log("Có lỗi xảy ra khi cập nhật thông tin khóa học:", error);
     alert("Có lỗi xảy ra khi cập nhật thông tin khóa học");
   }

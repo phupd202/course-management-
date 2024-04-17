@@ -1,12 +1,6 @@
 <template>
-    <header>
-        <HomeSidebar></HomeSidebar>
-        <HomeHeader></HomeHeader>
-    </header>
-
-    <main style="margin-top: 58px; margin-left: 60px;">
-        <!-- content -->
-        <div class="container pt-4">
+    <PageLayout>
+        <template v-slot:content>
             <h2 style="color: rgb(68, 68, 68);">Lịch đăng ký tư vấn đang chờ</h2> <br>
             <div class="container">
                 <div class="row justify-content-center"> <!-- Sử dụng lớp justify-content-center để canh giữa -->
@@ -125,13 +119,12 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </main>
-
+        </template>
+    </PageLayout>
 </template>
+
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import Editor from '@tinymce/tinymce-vue'
 import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';

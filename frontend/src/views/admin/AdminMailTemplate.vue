@@ -1,11 +1,7 @@
-<template>
-    <header>
-        <HomeSidebar></HomeSidebar>
-        <HomeHeader></HomeHeader>
-    </header>
 
-    <main style="margin-top: 58px; margin-left: 60px;">
-        <div class="container pt-4">
+<template>
+    <PageLayout>
+        <template v-slot:content>
             <h3>Quản lý Mail Template</h3>
             <div class="add-template">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -149,13 +145,12 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </main>
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import axios from 'axios';
 import Editor from '@tinymce/tinymce-vue'
 import { computed, onMounted, ref } from 'vue';

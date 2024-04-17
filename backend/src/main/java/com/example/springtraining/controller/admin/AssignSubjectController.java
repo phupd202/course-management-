@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springtraining.dto.CheckAssignmentDto;
 import com.example.springtraining.dto.LecturerDto;
 import com.example.springtraining.dto.SubjectDto;
+import com.example.springtraining.entity.Classroom;
+import com.example.springtraining.repository.ClassroomRepository;
 import com.example.springtraining.service.AssignmentService;
 import com.example.springtraining.service.LecturerService;
 import com.example.springtraining.service.SubjectService;
@@ -31,10 +33,13 @@ public class AssignSubjectController {;
 
     private final AssignmentService assignmentService;
 
-    public AssignSubjectController(LecturerService lecturerService, SubjectService subjectService, AssignmentService assignmentService) {
+    private final ClassroomRepository classroomRepository;
+
+    public AssignSubjectController(LecturerService lecturerService, SubjectService subjectService, AssignmentService assignmentService, ClassroomRepository classroomRepository) {
         this.lecturerService = lecturerService;
         this.subjectService = subjectService;
         this.assignmentService = assignmentService;
+        this.classroomRepository = classroomRepository;
     } 
 
     @GetMapping("/{classroomId}")
@@ -65,6 +70,21 @@ public class AssignSubjectController {;
         } else {
             assignmentService.updateAssignment(checkAssignmentDto);
             return ResponseEntity.ok(HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/close-classroom/{classroomId}")
+    public ResponseEntity<?> putMethodName(@PathVariable(name = "classroomId") Long classroomId) {
+        if(classroomId == null) {
+            return ResponseEntity.badRequest().build();
+        } 
+        Classroom classroom = classroomRepository.findByClassroomId(classroomId);
+        if(classroom == null) {
+            throw new NullPointerException("Classroom is null");
+        } else {
+            classroom.setIsFinished(true);
+            classroomRepository.save(classroom);
+            return ResponseEntity.ok(HttpStatus.ACCEPTED);
         }
     }
 }

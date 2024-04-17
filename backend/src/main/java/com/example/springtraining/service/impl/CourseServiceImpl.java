@@ -1,6 +1,5 @@
 package com.example.springtraining.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,5 +115,15 @@ public class CourseServiceImpl implements CourseService {
             course.setPrice(courseResponse.getPrice());
             courseRepository.save(course);
         }
+    }
+
+    @Override
+    public List<CourseResponse> findCourseByKeyword(String keyword) {
+        List<Course> courses = courseRepository.findCourseByKeyword(keyword);
+    
+        logger.debug("course: ", courses.toString());
+        return courses.stream()
+                    .map(CourseResponseMapper::mapToDto)
+                    .collect(Collectors.toList());
     }
 }

@@ -1,12 +1,8 @@
+
 <template>
-    <header>
-      <HomeSidebar></HomeSidebar>
-      <HomeHeader></HomeHeader>
-    </header>
-  
-    <main style="margin-top: 58px;">
-      <div class="container pt-4">
-        <h3>Danh sách các khoá học của bạn</h3> <br>
+  <PageLayout>
+    <template v-slot:content>
+      <h3>Danh sách các khoá học của bạn</h3> <br>
         <!-- Bootstrap  -->
         <div class="accordion" id="accordionPanelsStayOpenExample">
             <div class="accordion-item" v-for="(classroom, index) in myCourse" :key="index">
@@ -34,13 +30,11 @@
                 </div>
             </div>
         </div>
-      </div>
-    </main>
-  </template>
-  
+    </template>
+  </PageLayout>
+</template>
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import { ClassroomOfCourse } from '@/interface/ClassroomOfCourse';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';

@@ -25,4 +25,6 @@ public interface CourseService {
     List<Course> getAllCourse();
 
     void updateCourse(CourseResponse courseResponse);
+
+    List<CourseResponse> findCourseByKeyword(String keyword);
 }

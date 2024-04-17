@@ -43,6 +43,6 @@ public interface CourseRepository extends JpaRepository<Course, Long>{
     @Query("SELECT c FROM Course c JOIN c.classrooms classroom WHERE classroom.classroomId = :classroomId")
     Course findByClassroomId(Long classroomId);
 
-    
-
+    @Query("SELECT c FROM Course c WHERE LOWER(c.description) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(c.nameCourse) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Course> findCourseByKeyword(@Param("keyword") String keyword);
 }

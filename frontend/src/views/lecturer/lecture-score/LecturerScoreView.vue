@@ -1,12 +1,6 @@
 <template>
-    <header>
-        <HomeSidebar></HomeSidebar>
-        <HomeHeader></HomeHeader>
-    </header>
-
-    <main style="margin-top: 70px;">
-        <!-- content -->
-        <div class="container pt-4">
+    <PageLayout>
+        <template v-slot:content>
             <h3>Danh sách lớp đang giảng dạy</h3>
             <div class="list-item" style="margin-top: 30px;">
                 <div class="row">
@@ -32,13 +26,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main> 
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang= "ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import store from '@/store/store';
 import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';

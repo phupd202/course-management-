@@ -51,3 +51,9 @@
     background-color: #218838;
     ;
   }
+
+  .fixed-pagination {
+    position: fixed;
+    bottom: 20px;
+  }
+

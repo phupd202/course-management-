@@ -14,6 +14,8 @@ public class ClassReponseMapper {
         classroomResponse.setClassroomId(classroom.getClassroomId());
         classroomResponse.setCodeClassroom(classroom.getCodeClassroom());
 
+        classroomResponse.setIsFinished(classroom.getIsFinished());
+
         Integer sumEstimate = classroom.getCourse()
                                     .getSubjects()
                                     .stream()

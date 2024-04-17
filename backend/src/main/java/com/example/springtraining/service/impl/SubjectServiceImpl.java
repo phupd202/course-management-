@@ -128,6 +128,7 @@ public class SubjectServiceImpl implements SubjectService {
         } else {
             subjectDto.setSubjectId(subjectId);
             subjectDto.setNameSubject(subject.getNameSubject());
+            subjectDto.setEstimate(subject.getEstimate());
         }
 
         return subjectDto;

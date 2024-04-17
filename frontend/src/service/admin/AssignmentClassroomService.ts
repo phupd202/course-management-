@@ -62,3 +62,58 @@ export async function saveAssignment(jwtToken: string, assignmentRequest: Assign
     }
 }
 
+export function countFishedSubject(subjects: SubjectOfClass[]): number {
+    let finishedSubject = 0;
+
+    subjects.forEach(subject => {
+        if(subject.isClosed === true) {
+            finishedSubject++;
+        }
+    });
+
+    return finishedSubject;
+}
+
+export async function closeClassroom(classroomId: number, jwtToken: string): Promise<void> {
+    console.log("running close classroom!!");
+
+    const confirmClose = window.confirm("Thao tác chỉ được thực hiện 1 lần! Vui lòng cân nhắc kỹ. Bạn có muốn đóng lớp không?");
+
+    if (confirmClose) {
+        try {
+            await axios.put(`http://localhost:8080/course-management/admin/assign-classroom/close-classroom/${classroomId}`, null, {
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            alert("Đóng lớp thành công");
+            console.log("Close classroom successful!!");
+        } catch(error) {
+            console.log("Have a problem while closing classroom!");
+            console.log(error); 
+            throw error;
+        }
+    }
+}
+
+/*
+* Output: endDate from estimate
+*/
+export function autoFillEndDate(subjectId: number, beginDate: string, subjects: SubjectOfClass[]): string {
+    const beginDateObject = new Date(beginDate);
+    let estimate: number = 0;
+
+    for (const subject of subjects) {
+        if (subject.subjectId === subjectId) {
+            estimate = subject.estimate;
+            break; 
+        }
+    }
+
+    // find endDate with estimate time
+    const endDateObject = new Date(beginDateObject);
+    endDateObject.setMonth(endDateObject.getMonth() + Number(estimate));
+    console.log("estimate is: ", estimate)
+
+    return endDateObject.toISOString().slice(0, 16);
+}

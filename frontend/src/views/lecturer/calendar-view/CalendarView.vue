@@ -1,24 +1,17 @@
 <template>
-  <header>
-    <HomeHeader></HomeHeader>
-    <HomeSidebar></HomeSidebar>
-  </header>
-
-  <!-- Content -->
-  <main style="margin-top: 70px;">
-    <div class="container pt-4">
+  <PageLayout>
+    <template v-slot:content>
       <div class = "header-calendar">
         <h3>Lịch dạy giảng viên</h3>
       </div>
       
       <FullCalendar :options='calendarOptions' class="custom-calendar" id = "calendar-lecturer"/>
-    </div>
-  </main>
+    </template>
+  </PageLayout>
 </template>
 
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { computed, onMounted, ref } from 'vue';

@@ -1,12 +1,6 @@
 <template>
-    <header>
-        <HomeHeader></HomeHeader>
-        <HomeSidebar></HomeSidebar>
-    </header>
-
-    <!-- Content -->
-    <main style="margin-top: 70px;">
-        <div class="container pt-4">
+    <PageLayout>
+        <template v-slot:content>
             <h3>Danh sách sinh viên tham gia</h3>
             
             <div class="table-responsive">
@@ -51,14 +45,13 @@
                 <button class = "btn btn-primary" @click="sendListScore()">Hoàn Tất</button>
                 <button id = "btn-excel" class="btn btn-success">Xuất Excel</button>
             </div>
-        </div>
-    </main>     
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang="ts">
 // exceljs file-saver
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import store from '@/store/store';
 import { computed, onMounted, ref} from 'vue';
 import {useRoute } from 'vue-router';

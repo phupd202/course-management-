@@ -13,6 +13,7 @@ import com.example.springtraining.dto.response.ManageSubjectReponse;
 import com.example.springtraining.entity.Course;
 import com.example.springtraining.entity.InterestedParty;
 import com.example.springtraining.entity.Subject;
+import com.example.springtraining.repository.CourseRepository;
 import com.example.springtraining.repository.InterestedPartyRepository;
 import com.example.springtraining.service.CourseService;
 import com.example.springtraining.service.LecturerService;
@@ -104,6 +105,12 @@ public class AdminCourseController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return courseService.findAllCourse(pageable);
+    }
+
+    @GetMapping("/search-course")
+    public ResponseEntity<List<CourseResponse>> getCourseByKeyword(@RequestParam(name = "keyword") String keyword) {
+        List<CourseResponse> course = courseService.findCourseByKeyword(keyword);
+        return ResponseEntity.ok(course);
     }
 
     // Đóng khoá học

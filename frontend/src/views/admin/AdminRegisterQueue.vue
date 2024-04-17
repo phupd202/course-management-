@@ -1,11 +1,6 @@
 <template>
-    <header>
-        <HomeSidebar></HomeSidebar>
-        <HomeHeader></HomeHeader>
-    </header>
-
-    <main style="margin-top: 58px; margin-left: 60px;">
-        <div class="container pt-4">
+    <PageLayout>
+        <template v-slot:content>
             <h2 style="color: rgb(68, 68, 68);">Đơn đăng ký</h2> <br>
             <div class="container">
                 <div class="row justify-content-center"> <!-- Sử dụng lớp justify-content-center để canh giữa -->
@@ -63,13 +58,12 @@
                 </tbody>
                 </table>
             </div>
-        </div>
-    </main>
+        </template>
+    </PageLayout>
 </template>
 
 <script setup lang="ts">
-import HomeHeader from '@/components/HomeHeader.vue';
-import HomeSidebar from '@/components/HomeSidebar.vue';
+import PageLayout from '@/layout/PageLayout.vue';
 import {getAllCourses, getClassroom} from '../../interface/home/CourseService';
 import { CourseResponse } from '@/interface/CourseResponse';
 import { computed, onMounted, ref } from 'vue';

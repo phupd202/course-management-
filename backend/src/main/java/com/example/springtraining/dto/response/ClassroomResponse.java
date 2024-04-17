@@ -19,4 +19,6 @@ public class ClassroomResponse {
     private Integer sumPeriod;
 
     private Integer sumStudent;
+
+    private Boolean isFinished;
 }

@@ -38,6 +38,10 @@ public class AssignmentServiceImpl implements AssignmentService {
         this.classroomRepository = classroomRepository;
     }
 
+    /*
+     * Input: classroomId, subjectId
+     * Output: Assignment have classroomId, subjecId
+     */
     @Override
     public Assignment getByClassroomIdAndSubjectId(Long classroomId, Long subjectId) {
         if(classroomId == null || subjectId == null) {
@@ -58,52 +62,68 @@ public class AssignmentServiceImpl implements AssignmentService {
                                     .collect(Collectors.toList());
     }
 
+    // update if existed, create if not existed assignment 
     @Override
     public Assignment updateAssignment(CheckAssignmentDto checkAssignmentDto) {
         if(checkAssignmentDto == null) {
             throw new NullPointerException("checkAssignmentDto is null!");
         } else {
-            Long lecturerId = checkAssignmentDto.getLecturerId();
-            Lecturer lecturer = lecturerRepository.findByLecturerId(lecturerId);
-
-            Long subjectId = checkAssignmentDto.getSubjectId();
-            Subject subject = subjectRepository.findBySubjectId(subjectId);
-
-            Long classroomId = checkAssignmentDto.getClassroomId();
-            Classroom classroom = classroomRepository.findByClassroomId(classroomId);
-
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-            LocalDateTime beginDateFormatted = LocalDateTime.parse(checkAssignmentDto.getBeginDate(), dateFormatter);
-            LocalDateTime endDateFormatted = LocalDateTime.parse(checkAssignmentDto.getEndDate(), dateFormatter);
-
-
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            LocalTime beginTimeFormatted = LocalTime.parse(checkAssignmentDto.getBeginTime(), timeFormatter);
-            LocalTime endTimeFormatted = LocalTime.parse(checkAssignmentDto.getEndTime(), timeFormatter);
-            
-            Assignment assignment = new Assignment();
-            assignment.setBeginDate(beginDateFormatted);
-            assignment.setEndDate(endDateFormatted);
-
-            assignment.setBeginTime(beginTimeFormatted);
-            assignment.setEndTime(endTimeFormatted);
-
-            assignment.setIsClosed(false);
-            assignment.setDayOfWeek(checkAssignmentDto.getDayOfWeek());
-
-            // set subject, lecturer and save assignment
-            try {
-                assignment.setLecturer(lecturer);
-                assignment.setSubject(subject);
-                assignment.setClassroom(classroom);
-                // lecturerRepository.save(lecturer);
-                // classroomRepository.save(classroom);
-                // subjectRepository.save(subject);
-                assignmentRepository.save(assignment);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
+            Assignment assignment = createOrUpdateAssignment(checkAssignmentDto);
             return assignment;
         }
+    }
+
+    // helper for updateAssignment
+    private Assignment createOrUpdateAssignment(CheckAssignmentDto checkAssignmentDto) {
+        Long subjectId = checkAssignmentDto.getSubjectId();
+        Long classroomId = checkAssignmentDto.getClassroomId();
+        Long lecturerId = checkAssignmentDto.getLecturerId();
+
+        // create or update data into database
+        Assignment existingAssignment = assignmentRepository.findByClassroomIdAndSubjectId(classroomId, subjectId);
+
+        if(existingAssignment == null) {
+            existingAssignment = new Assignment();
+        }
+
+        try {
+            existingAssignment.setBeginDate(parseDateTime(checkAssignmentDto.getBeginDate()));
+            existingAssignment.setEndDate(parseDateTime(checkAssignmentDto.getEndDate()));
+            existingAssignment.setBeginTime(parseTime(checkAssignmentDto.getBeginTime()));
+            existingAssignment.setEndTime(parseTime(checkAssignmentDto.getEndTime()));
+
+            existingAssignment.setIsClosed(false);
+            existingAssignment.setDayOfWeek(checkAssignmentDto.getDayOfWeek());
+
+            existingAssignment.setLecturer(lecturerRepository.findByLecturerId(lecturerId));
+            existingAssignment.setSubject(subjectRepository.findBySubjectId(subjectId));
+            existingAssignment.setClassroom(classroomRepository.findByClassroomId(classroomId));
+
+            assignmentRepository.save(existingAssignment);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return existingAssignment;
+    }
+
+     /*
+     * helper for createOrUpdateAssignment
+     * input: string
+     * output: localdatetime
+     */
+    private LocalDateTime parseDateTime(String dateStr) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return LocalDateTime.parse(dateStr, dateFormatter);
+    }
+
+    /*
+     * helper for createOrUpdateAssignment
+     * input: string
+     * output: localtime
+     */
+    private LocalTime parseTime(String timeStr) {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        return LocalTime.parse(timeStr, timeFormatter);
     }
 }
