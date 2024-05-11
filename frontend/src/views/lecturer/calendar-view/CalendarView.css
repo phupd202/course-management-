@@ -1,35 +1,70 @@
 #calendar-lecturer {
-    background-color: pink;
+    background-color: #ffffff;
     color: black;
-  }
+}
   
-  #header-calendar {
-      background-color: #007bff;
-      color: #ffffff;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-  }
+#header-calendar {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
   
   
-  .fc-event {
-      background-color: #28a745; /* Màu xanh lá cây */
+.fc-event {
+      background-color: #25476A; /* Màu xanh lá cây */
       color: #ffffff; /* Màu chữ trắng */
       border: none; /* Không có đường viền */
-  }
+}
   
-  .custom-calendar {
-      background-color: #f8f9fa; /* Màu nền */
-      color: #343a40; /* Màu chữ chính */
-      border-radius: 5px; /* Bo tròn viền */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
-  }
+  /* Tùy chỉnh màu cho tiêu đề sự kiện */
+.fc-event-title {
+    color: #fff;
+}
   
-  .header-calendar {
-      background-color: #007bff; /* Màu nền của tiêu đề */
-      color: #ffffff; /* Màu chữ của tiêu đề */
-      padding: 10px; /* Khoảng cách giữa các thành phần */
-      border-radius: 5px; /* Bo tròn viền */
-      margin-bottom: 20px; /* Khoảng cách với phần nội dung */
-  }
+.custom-calendar {
+    background-color: #f8f9fa; /* Màu nền */
+    color: #343a40; /* Màu chữ chính */
+    border-radius: 10px; /* Bo tròn viền */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
   
+.header-calendar {
+    background-color: #25476A; /* Màu nền của tiêu đề *
+    padding: 10px; /* Khoảng cách giữa các thành phần */
+    border-radius: 5px; /* Bo tròn viền */
+    margin-bottom: 20px; /* Khoảng cách với phần nội dung */
+    margin-top: 20px;
+    padding: 5px;
+    width: 700px;
+    
+}
+
+.header-calendar h3{
+    color: #ffffff;
+}
+
+.fc .fc-col-header-cell-cushion {
+    color: #25476A;
+    text-decoration: none
+}
+
+.fc-daygrid-day-frame {
+    padding: 5px;
+}
+
+.event-tooltip {
+    position: fixed;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 9999;
+    /* Thêm CSS tùy chỉnh khác nếu cần */
+}
+
+.option-calendar {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+}

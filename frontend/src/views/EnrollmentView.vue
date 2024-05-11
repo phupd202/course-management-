@@ -67,14 +67,12 @@
 <script lang="ts">
 import HomeHeader from '@/components/HomeHeader.vue';
 import HomeSidebar from '@/components/HomeSidebar.vue';
-import TableScore from '@/components/TableScore.vue';
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
     components: {
         HomeSidebar,
-        HomeHeader,
-        TableScore,
+        HomeHeader
     }
 })
 

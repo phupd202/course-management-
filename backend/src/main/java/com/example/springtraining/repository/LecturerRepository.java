@@ -18,6 +18,10 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
         Lecturer findByLecturerId(Long lecturerId);
 
         @Transactional
+        @Query("SELECT l FROM Lecturer l WHERE l.email = :email")
+        Lecturer findLecturerByEmail(String email);
+
+        @Transactional
         Lecturer save(Lecturer lecturer);
 
         List<Lecturer> findAll();

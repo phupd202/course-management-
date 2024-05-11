@@ -1,44 +1,87 @@
 <template>
-    <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-        <div class="col-4 content">
-            <div class="card-body my-auto">
-                <div class="text-center">
-                    <h1>Đăng nhập</h1>
-                    <p>Đăng nhập với tài khoản của bạn</p>
-                </div>
+  <section id="content" class="content">
+    <div class="content__boxed w-100 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+      <div class="content__wrap">
 
-                <form class="mt-4 form-login" @submit.prevent="login">
-                    <div class="mb-3">
-                        <input type="text" v-model="signinData.email" class="form-control" placeholder="Email" required @blur = "validateEmail">
-                        <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="password" v-model="signinData.password" class="form-control" placeholder="Mật khẩu" required @blur = "validatePassword">
-                        <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
-                    </div>
-
-                    <div class = "d-flex justify-content-start">
-                        <div class="form-check">
-                            <input id="_dm-loginCheck" class="form-check-input" type="checkbox">
-                            <label for="_dm-loginCheck" class="form-check-label">
-                                Ghi nhớ
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="d-grid mt-5 d-flex justify-content-center">
-                        <button class="btn" type="submit">Đăng nhập</button>
-                    </div>
-                </form>
-
-                <div class="d-flex justify-content-between mt-4">
-                    <router-link to="/course-management/signup" class="btn-link text-decoration-none" >Đăng ký</router-link>
-                    <router-link to="/course-management/forgot-password" class="btn-link text-decoration-none">Quên mật khẩu</router-link>
-                </div>
+        <!-- Login card -->
+        <div class="card shadow-lg">
+          <div class="card-body">
+            <div class="text-center">
+              <h1 class="h3">Đăng nhập</h1>
+              <p>Đăng nhập ngay để xem khoá học của bạn!!!</p>
             </div>
+
+            <form class="mt-4" @submit.prevent="login">
+
+              <div class="mb-3">
+                <input type="text" v-model="signinData.email" class="form-control" placeholder="Email" required @blur = "validateEmail">
+                <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
+              </div>
+
+              <div class="mb-3">
+                <input type="password" v-model="signinData.password" class="form-control" placeholder="Mật khẩu" required @blur = "validatePassword">
+                <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
+              </div>
+
+              <div class = "d-flex justify-content-start">
+                  <div class="form-check">
+                    <input id="_dm-loginCheck" class="form-check-input" type="checkbox">
+                      <label for="_dm-loginCheck" class="form-check-label">
+                        Ghi nhớ
+                      </label>
+                  </div>
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-primary" type="submit">Đăng nhập</button>
+              </div>
+            </form>
+
+            <div class="d-flex justify-content-between mt-4">
+              <router-link to="/course-management/signup" class="btn-link text-decoration-none" >Đăng ký</router-link>
+              <router-link to="/course-management/forgot-password" class="btn-link text-decoration-none">Quên mật khẩu</router-link>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between border-top pt-3 mt-3">
+              <h5 class="m-0">Đăng nhập với</h5>
+
+              <!-- Social media buttons -->
+              <div class="ms-3">
+                <a href="#" class="btn btn-sm btn-icon btn-hover btn-primary text-inherit">
+                  <i class="demo-psi-facebook fs-5"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-icon btn-hover btn-info text-inherit">
+                  <i class="demo-psi-twitter fs-5"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-icon btn-hover btn-danger text-inherit">
+                  <i class="demo-psi-google-plus fs-5"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-icon btn-hover btn-warning text-inherit">
+                  <i class="demo-psi-instagram fs-5"></i>
+                </a>
+              </div>
+              <!-- END : Social media buttons -->
+
+            </div>
+
+          </div>
         </div>
+        <!-- END : Login card -->
+
+        <!-- Show the background images container -->
+        <div class="d-flex align-items-center justify-content-center gap-3 mt-4">
+          <button class="btn btn-danger hstack gap-2" data-bs-toggle="offcanvas" data-bs-target="#_dm-boxedBgContent">
+            <i class=" demo-psi-photos fs-4"></i>
+            <span class="vr"></span>
+            Trang chủ
+          </button>
+          <button class="btn btn-light" onclick="window.history.back()">Trở về</button>
+        </div>
+        <!-- END : Show the background images container -->
+
+      </div>
     </div>
+  </section>
 
 </template>
 
@@ -90,10 +133,10 @@ const store = useStore();
 
 // const isLoggedIn = computed(() => store.state.isLoggedIn);
 interface ResponseSignin {
-  id: number | null, 
-  email: string | null, 
-  roles: string[] | null, 
-  accessToken: string | null, 
+  id: number | null,
+  email: string | null,
+  roles: string[] | null,
+  accessToken: string | null,
   tokenType: string | null
 }
 
@@ -110,11 +153,11 @@ const login = async () => {
       console.log("Mảng roles: " + roles.value)
 
       if (Array.isArray(roles.value) && roles.value.length === 1) {
-        if(roles.value[0] === "USER") {
+        if (roles.value[0] === "USER") {
           router.push({ name: 'userMyCourse' });
-        } else if(roles.value[0] === "ADMIN") {
+        } else if (roles.value[0] === "ADMIN") {
           router.push({ name: 'adminCourse' });
-        } else if(roles.value[0] === "LECTURER") {
+        } else if (roles.value[0] === "LECTURER") {
           router.push({ name: 'lecturerScore' });
         } else {
           alert("Vai trò không hợp lệ")
@@ -141,37 +184,4 @@ const login = async () => {
 </script>
 
 <style>
-.btn {
-    width: 120px;
-    height: 40px;
-    background-color: #003E83;
-    color: #fff;
-}
-
-.btn:hover {
-    color: #003E83;
-    background-color: #4BAAFE;
-}
-
-* {
-    font-family: 'Nunito', sans-serif; 
-    color: #333333;
-}
-
-.container-fluid {
-    background-color: #4BAAFE;
-}
-
-.content {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng nhẹ */
-    padding: 20px; /* Thêm padding để nội dung không sát mép */
-}
-
-.content h1 {
-    font-size: 30px;
-    color: #003E83;
-
-}
 </style>

@@ -1,13 +1,79 @@
-<template>
+<!-- <template>
 <nav id="sidebarMenu" class="d-lg-block sidebar bg-white">
-    <div class="list-group list-group-flush mx-3 mt-4">
-      <div class="menu-group">
-        <router-link  v-for="(menu, index) in props.menus" :key = "index" :to = "menu.path" class="list-group-item list-group-item-action rounded-3 py-3">
-          <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>{{ menu.nameMenu }}</span>
-        </router-link>
-      </div>
-    </div>
+    
 </nav>
+</template> -->
+<template>
+  <nav id="mainnav-container" class="mainnav d-lg-block" style = "height: 100vh;">
+    <div class="mainnav__inner">
+      <!-- Navigation menu -->
+      <div class="mainnav__top-content scrollable-content pb-5">
+
+        <!-- Profile Widget -->
+        <div class="mainnav__profile mt-3 d-flex3">
+
+          <div class="mt-2 d-mn-max"></div>
+
+          <!-- Profile picture  -->
+          <div class="mininav-toggle text-center">
+            <img class="mainnav__avatar img-md rounded-circle border" src="../../public/img/profile-photos/1.png"
+              alt="Profile Picture">
+          </div>
+
+          <div class="mininav-content collapse d-mn-max">
+            <div class="d-grid">
+
+              <!-- User name and position -->
+              <button class="d-block btn shadow-none p-2" data-bs-toggle="collapse" data-bs-target="#usernav"
+                aria-expanded="false" aria-controls="usernav">
+                <span class="dropdown-toggle d-flex justify-content-center align-items-center">
+                  <h6 class="mb-0 me-3">Tên người dùng</h6>
+                </span>
+              </button>
+
+              <!-- Collapsed user menu -->
+              <div id="usernav" class="nav flex-column collapse">
+                <a href="#" class="nav-link">
+                  <i class="demo-pli-unlock fs-5 me-2"></i>
+                  <span class="ms-1">Đăng xuất</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- End - Profile widget -->
+        <!-- Components Category -->
+        <div class="mainnav__categoriy py-3">
+          <ul class="mainnav__menu nav flex-column">
+
+            
+              <router-link v-for="(menu, index) in props.menus" :key="index" :to="menu.path"
+                class="mininav-toggle nav-link collapsed">
+                <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>{{ menu.nameMenu }}</span>
+              </router-link>
+           
+          </ul>
+        </div>
+        <!-- END : Components Category -->
+      </div>
+      <!-- End - Navigation menu -->
+
+      <!-- Logout -->
+      <div class="mainnav__bottom-content border-top pb-2">
+        <ul id="mainnav" class="mainnav__menu nav flex-column">
+          <li class="nav-item has-sub">
+            <a href="#" class="nav-link mininav-toggle collapsed" aria-expanded="false">
+              <i class="demo-pli-unlock fs-5 me-2"></i>
+              <span class="nav-label ms-1">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- End - Logout -->
+
+    </div>
+  </nav>
 </template>
 
 <script setup lang="ts">
@@ -17,37 +83,8 @@ import { useRoute } from 'vue-router';
 import { defineProps } from 'vue';
 
 const props = defineProps<{
-    menus: Menu[]
+  menus: Menu[]
 }>();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const isUser = ref<boolean>(false);
 const isAdmin = ref<boolean>(false);
@@ -62,7 +99,7 @@ function checkUserRole(): void {
   const path = route.path;
   if (path.startsWith("/course-management/user")) {
     isUser.value = true;
-  } 
+  }
 
   if (path.startsWith("/course-management/admin")) {
     isAdmin.value = true;
@@ -73,99 +110,3 @@ function checkUserRole(): void {
   }
 }
 </script>
-
-<style>
-#sidebarMenu{
-    max-height: 100vh;
-    overflow-y: scroll;
-    margin-top: 60px;
-    padding: 0;
-}
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  padding: 58px 0 0; 
-  box-shadow: 0 10px 20px 0 rgb(0 0 0 / 10%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-  width: 300px;
-  z-index: 1;
-  max-height: 100%;
-  color: #003E83;
-}
-
-a {
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
-.sidebar .active {
-  border-radius: 5px;
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-}
-
-.sidebar-sticky {
-  position: relative;
-  top: 0;
-  height: calc(100vh - 48px);
-  padding-top: 0.5rem;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-}
-
-@media (min-width: 991.98px) {
-  main {
-    padding-left: 240px;
-  }
-}
-
-.list-group-item {
-    color: #000; 
-    text-decoration: none; 
-    border-radius: 10px;
-}
-
-/* Màu của liên kết khi được active */
-.list-group-item.active {
-    background-color:  #003E83;
-    color: #fff;
-}
-
-.list-group-item {
-    color: #000; 
-    background-color: #fff; 
-    border: none; 
-    transition: background-color 0.3s ease; 
-}
-
-.list-group-item:hover {
-    background-color: #2974C8;
-    color: #fff;
-}
-
-.list-group-item span {
-    font-weight: bold; 
-}
-
-.menu-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Canh chỉnh các item theo chiều dọc */
-}
-
-.menu-group router-link {
-    flex: 1; /* Mở rộng các router-link để chia đều không gian */
-    text-align: center; /* Canh giữa nội dung */
-}
-
-.menu-group router-link .list-group-item {
-    display: flex;
-    align-items: center;
-}
-
-.menu-group router-link .list-group-item span {
-    flex: 1; /* Mở rộng nội dung span để chia đều không gian */
-    text-align: left; /* Canh giữa nội dung span theo chiều ngang */
-}
-</style>

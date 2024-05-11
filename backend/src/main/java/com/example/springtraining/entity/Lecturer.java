@@ -1,5 +1,6 @@
 package com.example.springtraining.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -38,4 +39,7 @@ public class Lecturer {
 
     @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY)
     Set<Specialize> specializes;
+
+    @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY)
+    List<PersonalEvent> PersonalEvents;
 }

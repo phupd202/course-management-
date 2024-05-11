@@ -4,6 +4,8 @@
       <IntroComponent></IntroComponent>
    </div>
 
+   <!-- Swiper các khoá học nổi bật -->
+   <h2 style="margin-top: 10px; margin-bottom: 50px; font-family: Roboto">Các khoá học nổi bật</h2>
    <h2 style="margin-top: 10px; margin-bottom: 50px; font-family: Roboto">Các khoá học nổi bật</h2>
    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -38,30 +40,31 @@
          </div>
       </div>
    </div>
-   
-   <h2 style="margin-top: 30px; margin-bottom: 20px;">Các khoá học của chúng tôi</h2>
-   <div class = "list-course" style="margin-left: 20px; margin-right: 20px">
-      <div class="card-course" v-for = "(course, index) in courseResponses" :key="index">
-            <img :src="course.url" alt="Ảnh khoá học" style="max-width: 100%; max-height: 150px;">
-            <div style="margin-top: 20px; margin-bottom: 20px;">
-                <h3 class = "text-card" id = "h3-course" >{{ truncateText(course.nameCourse, 20) }}</h3>
-                <h3>Giá: {{ currencyFilter(course.price) }}</h3>
-                <p class = "text-card">{{ truncateText(course.description, 80) }}</p>
-            </div>
 
-            <div class="register-div">
-               <router-link :to="{ name: 'detailCourseGuest', query: { courseId: Number(course.courseId) } }" class="btn btn-primary">
-                Chi tiết
-               </router-link>
-            </div>
-        </div>
+   <h2 style="margin-top: 30px; margin-bottom: 20px;">Các khoá học của chúng tôi</h2>
+   <div class="list-course" style="margin-left: 20px; margin-right: 20px">
+      <div class="card-course" v-for="(course, index) in courseResponses" :key="index">
+         <img :src="course.url" alt="Ảnh khoá học" style="max-width: 100%; max-height: 150px;">
+         <div style="margin-top: 20px; margin-bottom: 20px;">
+            <h3 class="text-card" id="h3-course">{{ truncateText(course.nameCourse, 20) }}</h3>
+            <h3>Giá: {{ currencyFilter(course.price) }}</h3>
+            <p class="text-card">{{ truncateText(course.description, 80) }}</p>
+         </div>
+
+         <div class="register-div">
+            <router-link :to="{ name: 'detailCourseGuest', query: { courseId: Number(course.courseId) } }"
+               class="btn btn-primary">
+               Chi tiết
+            </router-link>
+         </div>
+      </div>
    </div>
-   <div class = "form-register" style="margin-top: 30px; margin-right: 30px;">
-      <h2 id = "h2-sale">Đăng ký nhận tư vấn ngay!!!</h2>
+   <div class="form-register" style="margin-top: 30px; margin-right: 30px;">
+      <h2 id="h2-sale">Đăng ký nhận tư vấn ngay!!!</h2>
       <div class="container d-flex justify-content-center">
-         <form class = "col-9" @submit.prevent="sendForm(formRequest)">
+         <form class="col-9" @submit.prevent="sendForm(formRequest)">
             <div class="mb-3">
-               <label for="full-name" class="form-label" >Họ và tên</label>
+               <label for="full-name" class="form-label">Họ và tên</label>
                <input type="text" class="form-control input-register" id="full-name" v-model="formRequest.name">
             </div>
 
@@ -76,7 +79,7 @@
             </div>
 
             <div class="mb-3">
-               <label for="address" class="form-label" >Địa chỉ</label>
+               <label for="address" class="form-label">Địa chỉ</label>
                <input type="text" class="form-control input-register" id="address" v-model="formRequest.address">
             </div>
 
@@ -84,7 +87,8 @@
                <label for="select-course" class="form-label input-register">Khoá học bạn quan tâm</label>
                <select class="form-select" id="select-course" v-model="formRequest.courseId">
                   <option disabled value="" selected>Chọn khoá học</option>
-                  <option v-for="(courseResponse, idx) in courseResponses" :key="idx" :value="courseResponse.courseId">{{ courseResponse.nameCourse }}</option>
+                  <option v-for="(courseResponse, idx) in courseResponses" :key="idx" :value="courseResponse.courseId">
+                     {{ courseResponse.nameCourse }}</option>
                </select>
             </div>
 
@@ -106,21 +110,63 @@ import { currencyFilter } from '@/helpers/pricehelper';
 import { FormRequest } from '@/interface/home/FormRequest';
 import { CourseResponse } from '@/interface/home/CourseResponse';
 import { getAllCourse, sendForm } from '@/service/home/HomeUserService';
+// Swiper
+import Swiper from 'swiper';
 
-const courseResponses = ref<CourseResponse[]>([]); 
+const courseResponses = ref<CourseResponse[]>([]);
 const formRequest = ref<FormRequest>({
-   name: '', 
+   name: '',
    email: '',
    phone: '',
-   address: '', 
+   address: '',
    courseId: -1,
 })
+
+// item
+// const carouselItems = [
+//    {
+//       imageSrc: 'https://hoanghamobile.com/tin-tuc/wp-content/webp-express/webp-images/uploads/2023/08/hinh-nen-bau-troi-thump.jpg.webp',
+//       title: 'Khoá học lập trình Java',
+//       description: 'Cung cấp các kiến thức cơ bản về lập trình Java.'
+//    },
+//    {
+//       imageSrc: 'https://hoanghamobile.com/tin-tuc/wp-content/webp-express/webp-images/uploads/2023/08/hinh-nen-bau-troi-thump.jpg.webp',
+//       title: 'Ảnh 2',
+//       description: 'Cung cấp các kiến thức cơ bản về lập trình Java.'
+//    },
+//    {
+//       imageSrc: 'https://hoanghamobile.com/tin-tuc/wp-content/webp-express/webp-images/uploads/2023/08/hinh-nen-bau-troi-thump.jpg.webp',
+//       title: 'Khoá học lập trình Java',
+//       description: 'Cung cấp các kiến thức cơ bản về lập trình Java.'
+//    },
+//    {
+//       imageSrc: '../img/intro2.png',
+//       title: 'Khoá học lập trình Java',
+//       description: 'Cung cấp các kiến thức cơ bản về lập trình Java.'
+//    },
+//    {
+//       imageSrc: '../img/intro3.png',
+//       title: 'Khoá học lập trình Java',
+//       description: 'Cung cấp các kiến thức cơ bản về lập trình Java.'
+//    }
+// ]
 
 onMounted(async () => {
    const courses = await getAllCourse();
    courseResponses.value = courses;
-})
- 
+
+   new Swiper('.swiper', {
+      slidesPerView: 3,
+      grid: {
+         rows: 3,
+      },
+      mousewheel: {
+         forceToAxis: true,
+      },
+   });
+
+});
+
 </script>
 <style>
 @import url(HomeUserView.css);

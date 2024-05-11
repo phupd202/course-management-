@@ -5,12 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springtraining.config.service.UserDetailsImpl;
 import com.example.springtraining.dto.lecturer.AssignmentLecturerDto;
 import com.example.springtraining.dto.lecturer.EnrollmentDto;
+import com.example.springtraining.dto.lecturer.PersonaleEventDto;
+import com.example.springtraining.dto.lecturer.ResponsePersonalEvent;
 import com.example.springtraining.dto.lecturer.ScoreDto;
+import com.example.springtraining.entity.PersonalEvent;
 import com.example.springtraining.entity.Score;
+import com.example.springtraining.repository.PersonalEventRepository;
 import com.example.springtraining.repository.ScoreRepository;
 import com.example.springtraining.service.AssignmentService;
 import com.example.springtraining.service.EnrollmentService;
 import com.example.springtraining.service.LecturerService;
+import com.example.springtraining.service.PersonalEventService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,12 +49,16 @@ public class LecturerManagementController {
 
     private final LecturerService lecturerService;
 
+    private final PersonalEventService personalEventService;
+
     public LecturerManagementController(AssignmentService assignmentService, EnrollmentService enrollmentService,
-                                        ScoreRepository scoreRepository, LecturerService lecturerService) {
+                                        ScoreRepository scoreRepository, LecturerService lecturerService,
+                                        PersonalEventService personalEventService) {
         this.assignmentService = assignmentService;
         this.enrollmentService = enrollmentService;
         this.scoreRepository = scoreRepository;
         this.lecturerService = lecturerService;   
+        this.personalEventService = personalEventService;
     }
 
     @GetMapping("/get-all-assignment")
@@ -99,5 +109,31 @@ public class LecturerManagementController {
                 return ResponseEntity.badRequest().build();
             }
         }
+    }
+
+    @PostMapping("/save-event")
+    public ResponseEntity<?> saveEvent(@RequestBody PersonaleEventDto personaleEventDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String emailLecturer = userDetails.getUsername();
+        try {
+            personalEventService.saveEvent(personaleEventDto, emailLecturer);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/get-personal-event")
+    public ResponseEntity<List<ResponsePersonalEvent>> getPersonalEvent() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String email = userDetails.getUsername();
+
+        List<ResponsePersonalEvent> responsePersonalEvent =  personalEventService.getPersonalEvent(email);
+        
+        return ResponseEntity.ok(responsePersonalEvent);
     }
 }

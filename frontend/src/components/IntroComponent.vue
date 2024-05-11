@@ -9,12 +9,6 @@
                 <p class = "text-card">Miễn phí sử dụng phòng học sáng tạo</p>
                 <p class = "text-card">Miễn phí các chương trình ngoại khoá của BKAP</p>
             </div>
-
-            <div class = "div-detail">
-                <button class = "detail-btn">
-                    <a href="#">Chi tiết</a>
-                 </button>
-            </div>
         </div>
         <div class="card">
             <img src="../assets/intro2.png" alt="Ảnh intro 2">
@@ -23,12 +17,6 @@
                 <p class = "text-card">75% thực hành, bỏ túi ít nhất 6 sản phẩm thực tế</p>
                 <p class = "text-card">Thực hành sâu và liên tục cùng giảng viên doanh nghiệp</p>
                 <p class = "text-card">Tham gia dự án tại doanh nghiệp ngay trong quá trình học</p>
-            </div>
-
-            <div class = "div-detail">
-                <button class = "detail-btn">
-                    <a href="#">Chi tiết</a>
-                </button>
             </div>
         </div>
         <div class="card" id = "card-hover">
@@ -39,18 +27,11 @@
                 <p class = "text-card">Tặng khoá tiếng Anh, kỹ năng mềm cho IT Leader</p>
                 <p class = "text-card">Bảo hành trọn đời, miễn phí cập nhật công nghệ mới</p>
             </div>
-
-            <div class = "div-detail">
-                <button class = "detail-btn">
-                    <a href="#">Chi tiết</a>
-                </button>
-            </div>
         </div>
     </div>
-
 </template>
-<script setup lang="ts"></script>
 
+<script setup lang="ts"></script>
 <style>
  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 .list-card {

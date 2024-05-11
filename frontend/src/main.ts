@@ -16,6 +16,10 @@ import 'popper.js';
 import router from './router'
 import store from './store/store';
 
+// nfity
+import "../public/css/bootstrap.css";
+import "../public/css/nifty.css";
+
 library.add(faHatWizard)
 const app = createApp(App)
 

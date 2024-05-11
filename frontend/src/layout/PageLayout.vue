@@ -1,15 +1,21 @@
 <template>
     <header>
-        <HomeSidebar v-if="isUser" :menus="userMenu"></HomeSidebar>
-        <HomeSidebar v-else-if="isAdmin" :menus="adminMenu"></HomeSidebar>
-        <HomeSidebar v-else-if="isLecturer" :menus="lecturerMenu"></HomeSidebar>
         <HomeHeader></HomeHeader>
     </header>
 
-    <main style="margin-top: 58px; margin-left: 60px;">
-        <div class="container pt-4">
-            <slot name="content"></slot>
+    <main>
+
+        <div class="row">
+            <div class="col-2">
+                <HomeSidebar v-if="isUser" :menus="userMenu"></HomeSidebar>
+                <HomeSidebar v-else-if="isAdmin" :menus="adminMenu"></HomeSidebar>
+                <HomeSidebar v-else-if="isLecturer" :menus="lecturerMenu"></HomeSidebar>
+            </div>
+            <div class="col-10">
+                <slot name="content"></slot>
+            </div>
         </div>
+
     </main>
 </template>
 
@@ -22,49 +28,49 @@ import { useStore } from 'vuex';
 
 const adminMenu: Menu[] = [
     {
-        path: "/course-management/admin/courses", 
+        path: "/course-management/admin/courses",
         nameMenu: "Quản lý khoá học"
     },
     {
-        path: "/course-management/admin/management-class", 
+        path: "/course-management/admin/management-class",
         nameMenu: "Quản lý lớp học"
     },
     {
-        path: "/course-management/admin/interest-party", 
+        path: "/course-management/admin/interest-party",
         nameMenu: "Lịch chờ tư vấn"
-    }, 
+    },
     {
-        path: "/course-management/admin/register-queue", 
+        path: "/course-management/admin/register-queue",
         nameMenu: "Đơn đăng ký"
-    }, 
+    },
     {
-        path: "/course-management/admin/mail-template", 
+        path: "/course-management/admin/mail-template",
         nameMenu: "Mail Template"
     }
 ]
 
 const userMenu: Menu[] = [
     {
-        path: "/course-management/user/my-course", 
+        path: "/course-management/user/my-course",
         nameMenu: "Khoá học của tôi"
     },
     {
-        path: "/course-management/user/my-score", 
+        path: "/course-management/user/my-score",
         nameMenu: "Xem điểm"
     }
 ]
 
 const lecturerMenu: Menu[] = [
     {
-        path: "/course-management/lecturer/info", 
+        path: "/course-management/lecturer/info",
         nameMenu: "Thông tin cá nhân"
     },
     {
-        path: "/course-management/lecturer/score", 
+        path: "/course-management/lecturer/score",
         nameMenu: "Quản lý điểm"
     },
     {
-        path: "/course-management/lecturer/calendar", 
+        path: "/course-management/lecturer/calendar",
         nameMenu: "Quản lý lịch dạy"
     },
 ]
