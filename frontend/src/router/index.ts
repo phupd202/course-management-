@@ -22,6 +22,9 @@ import UserMyCourse from '@/views/user/user-my-course/UserMyCourse.vue'
 import CourseManageAdminView from '@/views/admin/course-manage-admin/CourseManageAdminView.vue'
 import AdminManagementClass from '@/views/admin/manage-classroom/AdminManagementClass.vue'
 import TestView from '@/views/test/TestView.vue'
+import ExamAndReview from '@/views/lecturer/exam-and-review/ExamAndReview.vue'
+import CreateExamView from '@/views/lecturer/create-exam/CreateExamView.vue'
+import ListQuestionView from '@/views/lecturer/list-quesion/ListQuestionView.vue'
 
 const routes = [
   {
@@ -97,6 +100,27 @@ const routes = [
     path: '/course-management/lecturer/calendar',
     name: 'lecturerCalendar',
     component: CalendarView,
+    meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
+  },
+
+  {
+    path: '/course-management/lecturer/create-exam/:subjectId',
+    name: 'createExam',
+    component: CreateExamView,
+    meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
+  },
+
+  {
+    path: '/course-management/lecturer/review-and-exam',
+    name: 'examAndReview',
+    component: ExamAndReview,
+    meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
+  },
+
+  {
+    path: '/course-management/lecturer/list-question/:subjectId',
+    name: 'listQuestionView',
+    component: ListQuestionView,
     meta: { requiresAuth: true, allowedRoles: ["LECTURER"] }
   },
 

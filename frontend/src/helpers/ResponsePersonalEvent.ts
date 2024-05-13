@@ -3,4 +3,5 @@ export interface ResponsePersonalEvent {
     start: string, // datetime 
     end: string,  // datetime
     takenote: string, 
+    color: string
 }

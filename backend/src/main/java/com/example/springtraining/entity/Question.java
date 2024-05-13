@@ -1,8 +1,5 @@
 package com.example.springtraining.entity;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,29 +12,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "PersonalEvent")
 @Entity
+@Table(name = "Question")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PersonalEvent {
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long personalEventId;
+    private Long questionId;
 
-    private String title;
+    private String nameQuestion;
 
-    private LocalDate date;
+    private String firstAnswer;
 
-    private LocalTime beginTime;
+    private String secondAnswer;
 
-    private LocalTime endTime;
+    private String thirdAnswer;
 
-    private String takenote;
+    private String fourthAnswer;
 
-    private String color;
+    private String correctAnswer;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "lecturerId")
     private Lecturer lecturer;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "subjectId")
+    private Subject subject;
 }

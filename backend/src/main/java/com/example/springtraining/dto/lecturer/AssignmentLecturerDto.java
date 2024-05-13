@@ -10,6 +10,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AssignmentLecturerDto {
+    private Long assignmentId; 
+    
     private Long classroomId;
 
     private Long subjectId;

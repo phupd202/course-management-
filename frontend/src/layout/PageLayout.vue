@@ -73,6 +73,10 @@ const lecturerMenu: Menu[] = [
         path: "/course-management/lecturer/calendar",
         nameMenu: "Quản lý lịch dạy"
     },
+    {
+        path: "/course-management/lecturer/review-and-exam",
+        nameMenu: "Đề thi và ôn tập"
+    }
 ]
 
 // roles get from store

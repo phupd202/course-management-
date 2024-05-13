@@ -80,14 +80,15 @@ public class PersonalEventServiceImpl implements PersonalEventService{
 
         String dateStr = date.format(dateFormatter);
 
-        String start = dateStr + beginTimeStr;
-        String end = dateStr + endTimeStr;
+        String start = dateStr + " " + beginTimeStr;
+        String end = dateStr + " " + endTimeStr;
 
         ResponsePersonalEvent responsePersonalEvent = new ResponsePersonalEvent();
         responsePersonalEvent.setTitle(personalEvent.getTitle());
         responsePersonalEvent.setStart(start);
         responsePersonalEvent.setEnd(end);
         responsePersonalEvent.setTakenote(personalEvent.getTakenote());
+        responsePersonalEvent.setColor(personalEvent.getColor());
         return responsePersonalEvent;
     }
 }

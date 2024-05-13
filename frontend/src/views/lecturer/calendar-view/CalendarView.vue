@@ -57,7 +57,7 @@
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="saveEvent(newEvent)">Tạo</button>
                     <!-- <button type="button" class="btn btn-primary" @click="saveEvent(newEvent)">Lưu</button> -->
-                  </div>
+                  </div> 
                 </div>
               </div>
             </div>
@@ -91,11 +91,12 @@
             <p class="fs-6 text">{{ selectedEvent.title }}</p>
             <p class="fs-6 text">({{ getTimeOfStringDate(selectedEvent.start) }} - {{
               getTimeOfStringDate(selectedEvent.end) }})</p>
+              <!-- báo lỗi nma vẫn chạy được -->
+            <p class="fs-6 text" >{{selectedEvent.extendedProps.takenote}}</p> 
           </span>
           <!-- End: hiển thị thông tin sự kiện -->
         </div>
       </div>
-
     </template>
   </PageLayout>
 </template>
@@ -104,7 +105,7 @@
 import PageLayout from '@/layout/PageLayout.vue';
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import store from '@/store/store';
 import { AssignmentLecturer } from '@/interface/lecturer/AssignmentLecturer';
 import { getAssignmentLecturer, getPersonalEvent, saveNewEvent } from '@/service/lecturer/CalendarViewService';
@@ -116,7 +117,7 @@ import { ResponsePersonalEvent } from '@/helpers/ResponsePersonalEvent';
 // token
 const jwtToken = computed(() => store.getters.getAccessToken)
 
-let selectedEvent = ref<Event | null>(null);
+let selectedEvent = ref<Event | ResponsePersonalEvent | null>(null);
 const tooltipLeft = ref<string>('0px');
 const tooltipTop = ref<string>('0px');
 const assignmentLecturers = ref<AssignmentLecturer[]>([])
@@ -125,13 +126,16 @@ const isVisible = ref<boolean>(false)
 const isPersonal = ref<boolean>(false);
 const isTeaching = ref<boolean>(true);
 
+// colors of event
+const colors = ['#25476A', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8000', '#8000ff', '#0080ff', '#80ff00'];
+
 // fetch data from api 
 const personalEvent = ref<ResponsePersonalEvent[]>([]);
-const teachingEvent = [{
-    title: '',
-    start: '',
-    end: ''
-}]
+
+const teachingEvent = ref<Event[]>([]);
+
+// all event of lecturer
+const allEvents = ref([...personalEvent.value, ...teachingEvent.value]);
 
 // data gửi lên server
 const newEvent = ref<PersonalEvent>({
@@ -147,12 +151,14 @@ const calendarOptions = ref({
   plugins: [dayGridPlugin],
   initialView: 'dayGridMonth',
   selectable: true,
-  weekends: false,
   events: [{
     title: '',
     start: '',
     end: ''
   }],
+  eventBackgroundColor: '#378006',
+  eventDisplay: 'iblock',
+  
   themeSystem: 'bootstrap5',
 
   backgroundColor: '#25476A',
@@ -187,18 +193,21 @@ const createCalendar = (assignmentLecturers: AssignmentLecturer[]) => {
     console.log("Chưa chạy vòng for")
     const numDayOfWeek = countDayInWeekBetweenDate(beginDate, endDate, assignmentLecturer.dayOfWeek)
 
+    // chọn một màu cho sự kiện
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
     for (let i = 0; i < numDayOfWeek + 4; i++) {
       console.log("Đã vào vòng for")
       const event = {
         title: assignmentLecturer.nameSubject + " - " + assignmentLecturer.codeClassroom,
         start: getDatePart(teachingStartWeek.toLocaleDateString("en-CA")) + " " + assignmentLecturer.beginTime,
         end: getDatePart(teachingStartWeek.toLocaleDateString("en-CA")) + " " + assignmentLecturer.endTime,
+        color: randomColor
       }
 
       console.log("event: ", event)
       // calendarOptions.value.events.push(event)
-      teachingEvent.push(event)
-
+      teachingEvent.value.push(event)
       // update date
       teachingStartWeek.setDate(teachingStartWeek.getDate() + 7)
     }
@@ -220,6 +229,12 @@ onMounted(async () => {
     // fetch personal event
     const feachedPersonaleEvent = await getPersonalEvent(jwtToken.value);
     personalEvent.value = feachedPersonaleEvent;
+
+    allEvents.value = [...teachingEvent.value]
+
+    calendarOptions.value.events = allEvents.value;
+
+    console.log("all event: ", allEvents.value)
   } catch (error) {
     console.log("error at fecth assignment Lecturer: ", error)
     throw error;
@@ -245,6 +260,27 @@ const saveEvent = async (newEvent: PersonalEvent) => {
   resetModal(newEvent)
 }
 
+// filter
+watch([isPersonal,isTeaching], () => {
+  console.log("đã chạy watch")
+  if(isPersonal.value && isTeaching.value) {
+    allEvents.value = [...personalEvent.value, ...teachingEvent.value]
+    calendarOptions.value.events = allEvents.value;
+    console.log("allEvent: ", allEvents.value)
+  } else if(!isPersonal.value && isTeaching.value) {
+    allEvents.value = [...teachingEvent.value]
+    calendarOptions.value.events = allEvents.value;
+    console.log("allEvent: ", allEvents.value)
+  } else if(isPersonal.value && !isTeaching.value) {
+    allEvents.value = [...personalEvent.value]
+    calendarOptions.value.events = allEvents.value;
+    console.log("allEvent: ", allEvents.value)
+  } else {
+    allEvents.value = []
+    calendarOptions.value.events = allEvents.value;
+    console.log("allEvent: ", allEvents.value)
+  }
+});
 
 </script>
 

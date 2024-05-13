@@ -12,4 +12,5 @@ public class ResponsePersonalEvent {
     private String start;
     private String end;
     private String takenote;
+    private String color;
 }

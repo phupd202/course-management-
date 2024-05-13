@@ -1,4 +1,5 @@
 export interface AssignmentLecturer {
+    assignmentId: number
     classroomId: number, 
     beginDate: string, 
     endDate: string , 

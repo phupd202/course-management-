@@ -6,16 +6,21 @@ import com.example.springtraining.config.service.UserDetailsImpl;
 import com.example.springtraining.dto.lecturer.AssignmentLecturerDto;
 import com.example.springtraining.dto.lecturer.EnrollmentDto;
 import com.example.springtraining.dto.lecturer.PersonaleEventDto;
+import com.example.springtraining.dto.lecturer.QuestionDto;
 import com.example.springtraining.dto.lecturer.ResponsePersonalEvent;
 import com.example.springtraining.dto.lecturer.ScoreDto;
+import com.example.springtraining.entity.Lecturer;
 import com.example.springtraining.entity.PersonalEvent;
+import com.example.springtraining.entity.Question;
 import com.example.springtraining.entity.Score;
+import com.example.springtraining.repository.LecturerRepository;
 import com.example.springtraining.repository.PersonalEventRepository;
 import com.example.springtraining.repository.ScoreRepository;
 import com.example.springtraining.service.AssignmentService;
 import com.example.springtraining.service.EnrollmentService;
 import com.example.springtraining.service.LecturerService;
 import com.example.springtraining.service.PersonalEventService;
+import com.example.springtraining.service.QuestionService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +28,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,6 +37,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,6 +57,12 @@ public class LecturerManagementController {
     private final LecturerService lecturerService;
 
     private final PersonalEventService personalEventService;
+
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private LecturerRepository lecturerRepository;
 
     public LecturerManagementController(AssignmentService assignmentService, EnrollmentService enrollmentService,
                                         ScoreRepository scoreRepository, LecturerService lecturerService,
@@ -135,5 +148,23 @@ public class LecturerManagementController {
         List<ResponsePersonalEvent> responsePersonalEvent =  personalEventService.getPersonalEvent(email);
         
         return ResponseEntity.ok(responsePersonalEvent);
+    }
+
+    @GetMapping("/list-question/{subjectId}")
+    public ResponseEntity<List<QuestionDto>> getQuestionOfSubject(@PathVariable(name = "subjectId") Long subjectId) {
+        List<QuestionDto> questionDtos = questionService.getQuestionOfSubject(subjectId);
+        return ResponseEntity.ok(questionDtos);
+    }
+
+    @GetMapping("/fetch-infor-lecturer")
+    public ResponseEntity<Long> fetchInforLecturer() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String email = userDetails.getUsername();
+    
+        Lecturer lecturer = lecturerRepository.findLecturerByEmail(email);
+
+        return ResponseEntity.ok(lecturer.getLecturerId());
     }
 }

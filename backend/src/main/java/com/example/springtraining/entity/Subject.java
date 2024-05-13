@@ -59,6 +59,9 @@ public class Subject {
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
     private List<Score> scores;
 
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    private List<Question> questions;
+
 }
 
 

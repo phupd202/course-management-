@@ -12,6 +12,8 @@ public class LectureAssignmentMapper {
     public static AssignmentLecturerDto mapToDto(Assignment assignment) {
         AssignmentLecturerDto assigmentDto = new AssignmentLecturerDto();
 
+        assigmentDto.setAssignmentId(assignment.getAssignmentId());
+
         assigmentDto.setNameSubject(assignment.getSubject().getNameSubject());
         assigmentDto.setCodeClassroom(assignment.getClassroom().getCodeClassroom());
 

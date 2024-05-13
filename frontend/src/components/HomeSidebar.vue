@@ -46,8 +46,6 @@
         <!-- Components Category -->
         <div class="mainnav__categoriy py-3">
           <ul class="mainnav__menu nav flex-column">
-
-            
               <router-link v-for="(menu, index) in props.menus" :key="index" :to="menu.path"
                 class="mininav-toggle nav-link collapsed">
                 <i class="fas fa-tachometer-alt fa-fw me-2"></i><span>{{ menu.nameMenu }}</span>

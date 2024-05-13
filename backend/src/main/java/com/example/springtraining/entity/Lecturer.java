@@ -42,4 +42,7 @@ public class Lecturer {
 
     @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY)
     List<PersonalEvent> PersonalEvents;
+
+    @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY)
+    List<Question> questions;
 }
